@@ -10,6 +10,7 @@
 </head>
 
 <body>
+
     <div class="banner">
         <h4 style="font-weight: bold;">Đăng tin dễ dàng - Tìm trọ nhanh chóng!</h4>
         <?php
@@ -138,143 +139,143 @@
         <div class="tabs" id="city-tabs"></div>
         <div class="districts" id="district-list"></div>
 
+    </div>
+
+    <script>
+        let tinhData = {};
+        let quanData = {};
+        const tabUuTien = ["79", "01", "48", "74"]; // HCM, Hà Nội, Đà Nẵng, Bình Dương
+
+        Promise.all([
+            fetch('tinh_tp.json').then(res => res.json()),
+            fetch('quan_huyen.json').then(res => res.json())
+        ]).then(([tinhJson, quanJson]) => {
+            tinhData = tinhJson;
+            quanData = quanJson;
+
+            const cityTabs = document.getElementById('city-tabs');
+
+            // Tạo tab ưu tiên
+            tabUuTien.forEach(maTinh => {
+                const tab = document.createElement('div');
+                tab.className = 'tab';
+                tab.textContent = tinhData[maTinh].name;
 
 
-        <script>
-            let tinhData = {};
-            let quanData = {};
-            const tabUuTien = ["79", "01", "48", "74"]; // HCM, Hà Nội, Đà Nẵng, Bình Dương
+                tab.onclick = () => {
+                    const selectedTinh = tinhData[maTinh].name;
+                    const currentParams = new URLSearchParams(window.location.search);
 
-            Promise.all([
-                fetch('tinh_tp.json').then(res => res.json()),
-                fetch('quan_huyen.json').then(res => res.json())
-            ]).then(([tinhJson, quanJson]) => {
-                tinhData = tinhJson;
-                quanData = quanJson;
+                    currentParams.set('tinh', selectedTinh);
+                    currentParams.delete('quan'); // 🔥 XÓA QUẬN KHI ĐỔI TỈNH
+                    currentParams.delete('page'); // Xóa phân trang nếu có
 
-                const cityTabs = document.getElementById('city-tabs');
+                    window.location.href = window.location.pathname + '?' + currentParams.toString();
+                };
 
-                // Tạo tab ưu tiên
-                tabUuTien.forEach(maTinh => {
-                    const tab = document.createElement('div');
-                    tab.className = 'tab';
-                    tab.textContent = tinhData[maTinh].name;
-
-
-                    tab.onclick = () => {
-                        const selectedTinh = tinhData[maTinh].name;
-                        const currentParams = new URLSearchParams(window.location.search);
-
-                        currentParams.set('tinh', selectedTinh);
-                        currentParams.delete('quan'); // 🔥 XÓA QUẬN KHI ĐỔI TỈNH
-                        currentParams.delete('page'); // Xóa phân trang nếu có
-
-                        window.location.href = window.location.pathname + '?' + currentParams.toString();
-                    };
-
-                    cityTabs.appendChild(tab);
-                });
-
-                // Tạo tab Khác với dropdown
-                const khacTab = document.createElement('div');
-                khacTab.className = 'tab';
-                khacTab.textContent = 'Khác ▼';
-
-                const dropdown = document.createElement('div');
-                dropdown.className = 'dropdown';
-
-                for (const [maTinh, tinh] of Object.entries(tinhData)) {
-                    if (!tabUuTien.includes(maTinh)) {
-                        const option = document.createElement('div');
-                        option.textContent = tinh.name;
-
-
-                        option.onclick = (e) => {
-                            e.stopPropagation();
-                            removeActiveTabs();
-                            khacTab.classList.add('active');
-                            khacTab.textContent = tinh.name + ' ▼';
-
-                            const currentParams = new URLSearchParams(window.location.search);
-                            currentParams.set('tinh', tinh.name);
-                            currentParams.delete('quan');
-                            currentParams.delete('page');
-
-                            window.location.href = window.location.pathname + '?' + currentParams.toString();
-
-                            showDistricts(maTinh);
-                        };
-
-
-                        dropdown.appendChild(option);
-                    }
-                }
-
-                khacTab.appendChild(dropdown);
-                cityTabs.appendChild(khacTab);
-
-                const urlParams = new URLSearchParams(window.location.search);
-                const selectedTinhFromURL = urlParams.get('tinh');
-                const selectedQuanFromURL = urlParams.get('quan');
-
-                if (selectedTinhFromURL) {
-                    // Tìm mã tỉnh tương ứng
-                    const maTinhChon = Object.keys(tinhData).find(ma => tinhData[ma].name === selectedTinhFromURL);
-
-                    if (maTinhChon) {
-                        // Gán tab active
-                        const tabs = document.querySelectorAll('.tab');
-                        tabs.forEach(tab => {
-                            if (tab.textContent.includes(selectedTinhFromURL)) {
-                                tab.classList.add('active');
-                            }
-                        });
-
-                        showDistricts(maTinhChon); // Hiện danh sách quận
-                    }
-                }
-
+                cityTabs.appendChild(tab);
             });
 
+            // Tạo tab Khác với dropdown
+            const khacTab = document.createElement('div');
+            khacTab.className = 'tab';
+            khacTab.textContent = 'Khác ▼';
 
-            function showDistricts(maTinh) {
-                const list = document.getElementById('district-list');
-                list.innerHTML = '';
+            const dropdown = document.createElement('div');
+            dropdown.className = 'dropdown';
 
-                for (const [maQuan, quan] of Object.entries(quanData)) {
-                    if (quan.parent_code === maTinh) {
-                        const div = document.createElement('div');
-                        div.className = 'district';
-                        div.textContent = quan.name;
-
-
-
-                        div.onclick = () => {
-                            const selectedTinh = tinhData[maTinh].name;
-                            const selectedQuan = quan.name;
-
-                            const currentUrl = new URL(window.location.href);
-                            const params = new URLSearchParams(currentUrl.search);
-
-                            // Gán tỉnh và quận
-                            params.set('tinh', selectedTinh);
-                            params.set('quan', selectedQuan);
+            for (const [maTinh, tinh] of Object.entries(tinhData)) {
+                if (!tabUuTien.includes(maTinh)) {
+                    const option = document.createElement('div');
+                    option.textContent = tinh.name;
 
 
+                    option.onclick = (e) => {
+                        e.stopPropagation();
+                        removeActiveTabs();
+                        khacTab.classList.add('active');
+                        khacTab.textContent = tinh.name + ' ▼';
 
-                            const currentPage = window.location.pathname;
-                            window.location.href = `${currentPage}?${params.toString()}`;
-                        };
+                        const currentParams = new URLSearchParams(window.location.search);
+                        currentParams.set('tinh', tinh.name);
+                        currentParams.delete('quan');
+                        currentParams.delete('page');
 
-                        list.appendChild(div);
-                    }
+                        window.location.href = window.location.pathname + '?' + currentParams.toString();
+
+                        showDistricts(maTinh);
+                    };
+
+
+                    dropdown.appendChild(option);
                 }
             }
 
-            function removeActiveTabs() {
-                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            khacTab.appendChild(dropdown);
+            cityTabs.appendChild(khacTab);
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const selectedTinhFromURL = urlParams.get('tinh');
+            const selectedQuanFromURL = urlParams.get('quan');
+
+            if (selectedTinhFromURL) {
+                // Tìm mã tỉnh tương ứng
+                const maTinhChon = Object.keys(tinhData).find(ma => tinhData[ma].name === selectedTinhFromURL);
+
+                if (maTinhChon) {
+                    // Gán tab active
+                    const tabs = document.querySelectorAll('.tab');
+                    tabs.forEach(tab => {
+                        if (tab.textContent.includes(selectedTinhFromURL)) {
+                            tab.classList.add('active');
+                        }
+                    });
+
+                    showDistricts(maTinhChon); // Hiện danh sách quận
+                }
             }
-        </script>
+
+        });
+
+
+        function showDistricts(maTinh) {
+            const list = document.getElementById('district-list');
+            list.innerHTML = '';
+
+            for (const [maQuan, quan] of Object.entries(quanData)) {
+                if (quan.parent_code === maTinh) {
+                    const div = document.createElement('div');
+                    div.className = 'district';
+                    div.textContent = quan.name;
+
+
+
+                    div.onclick = () => {
+                        const selectedTinh = tinhData[maTinh].name;
+                        const selectedQuan = quan.name;
+
+                        const currentUrl = new URL(window.location.href);
+                        const params = new URLSearchParams(currentUrl.search);
+
+                        // Gán tỉnh và quận
+                        params.set('tinh', selectedTinh);
+                        params.set('quan', selectedQuan);
+
+
+
+                        const currentPage = window.location.pathname;
+                        window.location.href = `${currentPage}?${params.toString()}`;
+                    };
+
+                    list.appendChild(div);
+                }
+            }
+        }
+
+        function removeActiveTabs() {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        }
+    </script>
 
 </body>
 

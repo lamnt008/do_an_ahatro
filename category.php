@@ -6,6 +6,17 @@ include 'config.php';
 <html lang="en">
 
 <head>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Kiểm tra jQuery đã load chưa
+        if (typeof jQuery == 'undefined') {
+            document.write('<script src="/path/to/local/jquery.js"><\/script>');
+        }
+    </script>
+
+
+
     <meta charset="UTF-8">
     <title>AHA TRỌ /
         <?php
@@ -24,7 +35,8 @@ include 'config.php';
     <?php include 'header.php'; ?>
     <?php include 'banner.php'; ?>
     <div>
-        <h4 style="color: green; font-weight: bold;">
+        <h4 style="color: green; font-weight: bold; margin:0; padding-left: 30px;
+    background: #fffaf5; ">
             <?php
             $id = intval($_GET['id'] ?? 0);
             $rs = mysqli_query($conn, "SELECT loaiPhong FROM loai_phong WHERE idLoaiPhong = $id");

@@ -41,15 +41,6 @@ include 'config.php';
             flex-grow: 1;
         }
 
-        .nav-tabs {
-            margin-bottom: 20px;
-        }
-
-        .status-label {
-            margin-left: 10px;
-            font-size: 0.9em;
-        }
-
         @media (max-width: 768px) {
             .search-container {
                 flex-direction: column;
@@ -72,80 +63,43 @@ include 'config.php';
     <?php include('header.php'); ?>
     <div class="search-container">
         <div class="title-container">
-            <h2 style="color:green; margin: 0;">Các căn phòng đã đăng</h2>
+            <h2 style="color:green; margin: 0;">Danh sách yêu cầu đăng tin</h2>
         </div>
+
 
         <div class="search-box">
             <form method="get" action="" class="form-inline">
-                <input type="hidden" name="tab" value="<?php echo isset($_GET['tab']) ? $_GET['tab'] : 'all'; ?>">
                 <input type="text" class="form-control" name="search" placeholder="Nhập ID hoặc tiêu đề"
                     value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
                 <button type="submit" class="btn btn-primary">Tìm</button>
                 <?php if (isset($_GET['search']) && !empty($_GET['search'])): ?>
-                    <a href="?tab=<?php echo isset($_GET['tab']) ? $_GET['tab'] : 'all'; ?>" class="btn btn-default"
-                        style="margin-left: 5px;">Xóa</a>
+                    <a href="?" class="btn btn-default" style="margin-left: 5px;">Xóa</a>
                 <?php endif; ?>
             </form>
         </div>
     </div>
-
     <div class="container" style="margin-top: 20px; margin-bottom: 20px;">
         <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
-            <!-- Tab navigation -->
-            <ul class="nav nav-tabs">
-                <li class="<?php echo (!isset($_GET['tab']) || $_GET['tab'] == 'all') ? 'active' : ''; ?>">
-                    <a
-                        href="?tab=all<?php echo isset($_GET['search']) ? '&search=' . urlencode($_GET['search']) : ''; ?>">Tất
-                        cả tin đăng</a>
-                </li>
-                <li class="<?php echo (isset($_GET['tab']) && $_GET['tab'] == 'pending') ? 'active' : ''; ?>">
-                    <a
-                        href="?tab=pending<?php echo isset($_GET['search']) ? '&search=' . urlencode($_GET['search']) : ''; ?>">Chờ
-                        duyệt</a>
-                </li>
-                <li class="<?php echo (isset($_GET['tab']) && $_GET['tab'] == 'approved') ? 'active' : ''; ?>">
-                    <a
-                        href="?tab=approved<?php echo isset($_GET['search']) ? '&search=' . urlencode($_GET['search']) : ''; ?>">Đã
-                        duyệt</a>
-                </li>
-                <li class="<?php echo (isset($_GET['tab']) && $_GET['tab'] == 'rejected') ? 'active' : ''; ?>">
-                    <a
-                        href="?tab=rejected<?php echo isset($_GET['search']) ? '&search=' . urlencode($_GET['search']) : ''; ?>">Bị
-                        từ chối</a>
-                </li>
-            </ul>
+            <!-- Container chứa tiêu đề và ô tìm kiếm -->
+
+
+            <div style="height: 20px"></div>
 
             <?php
             $username = $_SESSION['user_name'];
             $search_term = isset($_GET['search']) ? trim($_GET['search']) : '';
-            $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'all';
-
-            // Xây dựng câu truy vấn SQL cơ bản
             $sql1 = 'SELECT * FROM phong_tro WHERE user_name = ?';
             $params = array($username);
             $types = 's';
 
-            // Thêm điều kiện theo tab
-            switch ($current_tab) {
-                case 'pending':
-                    $sql1 .= ' AND status = "pending"';
-                    break;
-                case 'approved':
-                    $sql1 .= ' AND status = "approved"';
-                    break;
-                case 'rejected':
-                    $sql1 .= ' AND status = "rejected"';
-                    break;
-                // 'all' không cần thêm điều kiện
-            }
-
-            // Thêm điều kiện tìm kiếm nếu có
             if (!empty($search_term)) {
                 if (is_numeric($search_term)) {
+                    // Tìm theo ID nếu search_term là số
                     $sql1 .= ' AND IDPhongTro = ?';
                     $params[] = (int) $search_term;
                     $types .= 'i';
                 } else {
+                    // Tìm theo tiêu đề nếu search_term là chuỗi
                     $sql1 .= ' AND TieuDe LIKE ?';
                     $params[] = '%' . $search_term . '%';
                     $types .= 's';
@@ -170,35 +124,33 @@ include 'config.php';
                                 <?php include "room.php"; ?>
                             </div>
                             <div class="room-manage" style="padding-left: 15px;">
-                                <a href="post_mana_edit.php?id=<?php echo $row['IDPhongTro']; ?>" class="btn btn-primary"
-                                    style="background-color: rgb(175, 0, 0);">
-                                    Quản lý chi tiết
-                                </a>
+
+                                <?php
+                                echo "<div class='status'>";
+                                if ($row['status'] == 'pending') {
+                                    echo "<span class='label label-warning'>Đang chờ duyệt</span>";
+                                } elseif ($row['status'] == 'approved') {
+                                    echo "<span class='label label-success'>Đã duyệt</span>";
+                                } elseif ($row['status'] == 'rejected') {
+                                    echo "<span class='label label-danger'>Bị từ chối</span>";
+                                }
+                                echo "</div>";
+                                ?>
+
 
                             </div>
                         </div>
                         <?php
+
+
+
                     }
                 } else {
                     echo "<div class='alert alert-info'>Không tìm thấy phòng trọ nào";
                     if (!empty($search_term)) {
                         echo " phù hợp với từ khóa '<strong>" . htmlspecialchars($search_term) . "</strong>'";
                     }
-                    echo " trong mục <strong>";
-                    switch ($current_tab) {
-                        case 'pending':
-                            echo "Chờ duyệt";
-                            break;
-                        case 'approved':
-                            echo "Đã duyệt";
-                            break;
-                        case 'rejected':
-                            echo "Bị từ chối";
-                            break;
-                        default:
-                            echo "Tất cả tin đăng";
-                    }
-                    echo "</strong>.</div>";
+                    echo ".</div>";
                 }
             } else {
                 echo "<div class='alert alert-danger'>Lỗi chuẩn bị truy vấn: " . $conn->error . "</div>";

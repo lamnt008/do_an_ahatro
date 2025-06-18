@@ -48,7 +48,7 @@ if (isset($_POST['update'])) {
 
     $update_sql = "UPDATE phong_tro SET DiaChi = ?, QuanHuyen = ?, TinhThanh = ? , TenChuTro = ?, Sdt = ?,
     TieuDe = ?, idLoaiPhong = ?, KieuVeSinh = ?, GiaChoThue = ?, DienTich = ?, GiaDien = ?, GiaNuoc = ?,
-     DoiTuong = ?, TienIch = ?, MoTa = ? WHERE IDPhongTro = ?";
+     DoiTuong = ?, TienIch = ?, MoTa = ?, status = 'pending' WHERE IDPhongTro = ?";
     $update_stmt = $conn->prepare($update_sql);
     $update_stmt->bind_param(
         "ssssssisiisssssi",

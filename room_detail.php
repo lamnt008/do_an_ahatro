@@ -4,12 +4,34 @@ include 'header.php';
 
 if (isset($_GET['id'])) {
 	$idPhong = intval($_GET['id']);
-	$sql = "SELECT pt.*, lp.loaiPhong 
-            FROM phong_tro pt
-            JOIN loai_phong lp ON pt.idLoaiPhong = lp.idLoaiPhong
-            WHERE pt.IDPhongTro = $idPhong";
 
+
+
+
+	// $sql = "SELECT pt.*, lp.loaiPhong 
+	//         FROM phong_tro pt
+	//         JOIN loai_phong lp ON pt.idLoaiPhong = lp.idLoaiPhong
+	//         WHERE pt.IDPhongTro = $idPhong";
+
+	// $result = mysqli_query($conn, $sql);
+
+
+
+	$sql = "SELECT pt.*, lp.loaiPhong 
+	        FROM phong_tro pt
+	        JOIN loai_phong lp ON pt.idLoaiPhong = lp.idLoaiPhong
+	       WHERE pt.IDPhongTro = $idPhong";
+	if ($_SESSION['user_role'] == 'user') {
+		$sql .= " AND status = 'approved'";
+
+	}
 	$result = mysqli_query($conn, $sql);
+	if ($result->num_rows == 0) {
+		echo "<div class='alert alert-warning'>Tin này không tồn tại hoặc chưa được duyệt</div>";
+		include('footer.php');
+		exit();
+	}
+
 
 	if (mysqli_num_rows($result) > 0) {
 		$phong = mysqli_fetch_assoc($result);
@@ -149,7 +171,7 @@ if (isset($_GET['id'])) {
 
 		<div class="info-block">
 			<h2>Thông tin chi tiết</h2>
-			<p><strong>Mã tin:</strong> #<?php echo $phong['IDPhongTro']; ?></p>
+			<p><strong>Mã tin:</strong><?php echo $phong['IDPhongTro']; ?></p>
 			<p><strong>Loại phòng:</strong> <?php echo $phong['loaiPhong']; ?></p>
 			<p><strong>Địa chỉ:</strong>
 				<?php echo $phong['DiaChi'] . ', ' . $phong['QuanHuyen'] . ', ' . $phong['TinhThanh']; ?></p>

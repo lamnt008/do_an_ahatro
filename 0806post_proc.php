@@ -6,9 +6,9 @@ if (isset($_POST['DangTin'])) {
     date_default_timezone_set('Asia/Ho_Chi_Minh');
     $thoiGianDang = date('Y-m-d H:i:s');
 
-    // 1. Thêm phòng trọ với status = 'pending'
+    // 1. Thêm phòng trọ
     $sql_insert_phong_tro = 'INSERT INTO phong_tro(user_name, DiaChi, QuanHuyen, TinhThanh, TenChuTro, Sdt, 
-    TieuDe, idLoaiPhong, KieuVeSinh, GiaChoThue, DienTich, GiaDien, GiaNuoc, DoiTuong, TienIch, MoTa, ThoiGianDang, status)
+    TieuDe, idLoaiPhong, KieuVeSinh, GiaChoThue, DienTich, GiaDien, GiaNuoc, DoiTuong, TienIch, MoTa, ThoiGianDang)
     VALUES (
         "' . $_SESSION['user_name'] . '",
         "' . $_POST['diaChi'] . '",
@@ -26,31 +26,33 @@ if (isset($_POST['DangTin'])) {
         "' . $_POST['doiTuong'] . '",
         "' . $_POST['tienIch'] . '",
         "' . $_POST['moTa'] . '",
-        "' . $thoiGianDang . '",
-        "pending"
+        "' . $thoiGianDang . '"
     )';
 
     if (mysqli_query($conn, $sql_insert_phong_tro)) {
+        // 2. Lấy ID phòng trọ vừa thêm
         $last_id = mysqli_insert_id($conn);
 
-        // 2. Xử lý hình ảnh
+        // 3. Xử lý hình ảnh
         $target_dir = "uploads/";
         $num_of_imgs = count($_FILES['fileToUpload']['name']);
 
         for ($i = 0; $i < $num_of_imgs; $i++) {
             $file_tmp = $_FILES["fileToUpload"]["tmp_name"][$i];
             $file_name = basename($_FILES["fileToUpload"]["name"][$i]);
-            $target_file = $target_dir . time() . "_" . $file_name;
+            $target_file = $target_dir . time() . "_" . $file_name; // thêm time() để tránh trùng tên
 
+            // Di chuyển file vào thư mục
             if (move_uploaded_file($file_tmp, $target_file)) {
+                // Lưu đường dẫn vào bảng ảnh
                 $sql_insert_img = 'INSERT INTO hinh_anh_phong_tro(IDPhongTro, DuongDan) VALUES("' . $last_id . '", "' . $target_file . '")';
                 mysqli_query($conn, $sql_insert_img);
             }
         }
 
-        // Thông báo cho người dùng
-        $_SESSION['message'] = "Tin đăng của bạn đã được gửi đi và đang chờ kiểm duyệt từ quản trị viên.";
-        header("Location: post_mana.php");
+
+        header("Location: room_detail.php?id=" . $last_id);
+
         exit();
     } else {
         echo "Lỗi khi thêm phòng trọ: " . mysqli_error($conn);

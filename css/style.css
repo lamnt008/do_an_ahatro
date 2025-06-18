@@ -1,124 +1,223 @@
-/* header.css */
-.header {
-    width: 100%;
-    height: 80px;
-    /* background-color: #fff; */
-    background-color: orangered;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+body {
     font-family: Arial, sans-serif;
 }
 
-/* Hàng 1 */
+/* header.css */
+.header {
+    width: 100%;
+}
+
+/* Dòng 1 - Top bar */
 .top-bar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 30px;
+    padding: 10px 30px;
+    background-color: orangered;
+    color: white;
 }
 
-.logo {
-    font-size: 30px;
-    font-weight: bold;
-    color: #007bff;
+.top-left {
+    display: flex;
+    align-items: center;
 }
 
 .top-right {
     display: flex;
     align-items: center;
+}
+
+.top-right-items {
+    display: flex;
+    align-items: center;
     gap: 20px;
 }
 
+.top-link {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.2s;
+}
+
+.top-link:hover {
+    text-decoration: underline;
+    opacity: 0.9;
+}
+
+.post-button {
+    padding: 8px 15px;
+    background-color: #28a745;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.2s;
+}
+
+.post-button:hover {
+    background-color: #218838;
+    transform: translateY(-1px);
+}
+
+/* Dropdown menu */
 .hdropdown {
     position: relative;
-    padding-bottom: 10px;
+    cursor: pointer;
 }
 
 .hdropdown-toggle {
     font-weight: bold;
     color: white;
-    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 0;
 }
 
 .hdropdown-menu {
     display: none;
     position: absolute;
     right: 0;
-    top: 30px;
+    top: 100%;
     background-color: white;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    min-width: 150px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 10;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    min-width: 180px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    padding: 5px 0;
 }
 
 .hdropdown-menu a {
-    display: block;
-    padding: 10px;
-    color: black;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 15px;
+    color: #333;
     text-decoration: none;
+    transition: all 0.2s;
 }
 
 .hdropdown-menu a:hover {
-    background-color: #f0f0f0;
+    background-color: #f5f5f5;
+    /* color: orangered; */
+    color: #ECAB53;
 }
 
 .hdropdown:hover .hdropdown-menu {
     display: block;
 }
 
-.avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background-color: #ccc;
+/* Dòng 2 - Category bar */
+.category-bar {
+    background-color: #f8f9fa;
+
+    padding: 10px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    border-top: 1px solid #eee;
 }
 
-.post-button {
-    padding: 5px 12px;
-    background-color: #28a745;
-    color: white;
-    border-radius: 6px;
-    text-decoration: none;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
-.post-button:hover {
-    background-color: #218838;
-}
-
-/* Hàng 2 - Menu */
-
-.menu {
+.category-menu {
     display: flex;
     justify-content: center;
-    gap: 30px;
-    padding: 10px;
-    background-color: #f8f9fa;
+    gap: 20px;
+    padding: 0;
     margin: 0;
-}
-
-.menu li {
     list-style: none;
+    flex-wrap: wrap;
 }
 
-.menu a {
+.category-menu li {
+    padding: 5px 0;
+}
+
+.category-menu a {
     text-decoration: none;
-    color: #333;
+    color: #444;
     font-weight: bold;
-    text-transform: uppercase;
+    font-size: 15px;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: all 0.2s;
+    position: relative;
 }
 
-.menu a:hover {
-    color: #007bff;
+.category-menu a:hover {
+    color: orangered;
+    background-color: #e9ecef;
 }
+
+.category-menu a.active {
+    /* color: white;
+    background-color: orangered; */
+    color: orangered;
+    background-color: white;
+}
+
+.category-menu a.active:hover {
+    color: #e04a00;
+}
+
+.no-category {
+    text-align: center;
+    color: #6c757d;
+    padding: 10px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .top-bar {
+        padding: 10px 15px;
+    }
+
+    .top-right-items {
+        gap: 12px;
+    }
+
+    .category-menu {
+        gap: 10px;
+        padding: 0 10px;
+    }
+
+    .category-menu a {
+        padding: 6px 10px;
+        font-size: 14px;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* banner.css */
-body {
+/* body {
     font-family: Arial, sans-serif;
     background: #fffaf5;
-    padding: 20px;
+    padding: 20px !important;
+
+} */
+.banner {
+    font-family: Arial, sans-serif;
+    background: #fffaf5;
+    padding-left: 30px;
 }
 
 .tabs {
@@ -146,6 +245,7 @@ body {
     top: 25px;
     left: 0;
     background: white;
+
     border: 1px solid #ccc;
     border-radius: 4px;
     z-index: 10;
@@ -171,10 +271,10 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
     gap: 8px;
-    background: white;
+    background: #fffaf5;
     padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+    /* border-radius: 8px;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.1); */
 }
 
 .district {
@@ -186,8 +286,25 @@ body {
     text-decoration: underline;
 }
 
+
+/* siderbar */
+.main-layout {
+    display: flex;
+}
+
+.main-content {
+    flex: 1;
+    padding: 20px;
+}
+
 /* hien thi bai dang */
+.row {
+    font-family: Arial, sans-serif;
+    background: #fffaf5;
+}
+
 .room-container {
+
     display: flex;
     flex-direction: column;
     gap: 15px;
@@ -248,6 +365,18 @@ body {
     margin: 0;
     font-size: 14px;
 }
+
+
+
+
+
+
+
+
+
+/* serch post */
+
+
 
 /* filter.php */
 .filter-box {
@@ -325,7 +454,14 @@ body {
 
 
 
-
+/* admin_post*/
+.status .label {
+    font-size: 16px;
+    padding: 8px 15px;
+    border-radius: 4px;
+    display: inline-block;
+    margin: 5px 0;
+}
 
 
 

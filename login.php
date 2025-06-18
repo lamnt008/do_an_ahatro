@@ -17,7 +17,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $row = mysqli_fetch_assoc($result);
             $_SESSION['user_id'] = $row['id'];
             $_SESSION['user_name'] = $row['username'];
-            header("Location: index.php");
+            $_SESSION['user_role'] = $row['role'];
+            if ($_SESSION['user_role'] == "admin") {
+                header("Location: admin_approve.php");
+            } else {
+                header("Location: index.php");
+            }
+
 
         } else {
             $errors[] = "Tên đăng nhập hoặc mật khẩu không đúng!";
