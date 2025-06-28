@@ -1,17 +1,35 @@
 <?php
 include 'config.php';
 
-// Thêm mới
+$message = '';
+
+
 if (isset($_POST['add'])) {
     $loaiPhong = trim($_POST['loaiPhong']);
     if ($loaiPhong != "") {
-        $stmt = $conn->prepare("INSERT INTO loai_phong (loaiPhong) VALUES (?)");
-        $stmt->bind_param("s", $loaiPhong);
-        $stmt->execute();
+        $checkStmt = $conn->prepare("SELECT COUNT(*) FROM loai_phong WHERE loaiPhong = ?");
+        $checkStmt->bind_param("s", $loaiPhong);
+        $checkStmt->execute();
+        $checkStmt->bind_result($count);
+        $checkStmt->fetch();
+        $checkStmt->close();
+
+        if ($count > 0) {
+            $message = "Danh mục đã tồn tại, hãy nhập danh mục khác.";
+        } else {
+            $stmt = $conn->prepare("INSERT INTO loai_phong (loaiPhong) VALUES (?)");
+            $stmt->bind_param("s", $loaiPhong);
+            if ($stmt->execute()) {
+                $message = "Thêm danh mục thành công.";
+            } else {
+                $message = "Có lỗi xảy ra khi thêm danh mục.";
+            }
+            $stmt->close();
+        }
     }
 }
 
-// Xóa
+
 if (isset($_GET['delete'])) {
     $id = intval($_GET['delete']);
     $conn->query("DELETE FROM loai_phong WHERE idLoaiPhong = $id");
@@ -36,10 +54,13 @@ $loai_phongs = $conn->query("SELECT * FROM loai_phong");
         <?php include('siderbar.php'); ?>
         <div class="main-content">
             <!-- <div style="margin-left:220px; padding:20px;"> -->
-            <h2>Quản lý loại phòng</h2>
+            <h2>Quản lý danh mục loại phòng</h2>
+            <?php if (!empty($message)): ?>
+                <div class="alert alert-info"><?php echo $message; ?></div>
+            <?php endif; ?>
             <form method="POST" class="form-inline" style="margin-bottom:20px;">
                 <div class="form-group">
-                    <label>Loại phòng:</label>
+                    <label>Danh mục:</label>
                     <input type="text" name="loaiPhong" class="form-control" required>
                 </div>
                 <button type="submit" name="add" class="btn btn-success">Thêm</button>
@@ -49,7 +70,7 @@ $loai_phongs = $conn->query("SELECT * FROM loai_phong");
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Loại phòng</th>
+                        <th>Danh mục</th>
                         <th>Hành động</th>
                     </tr>
                 </thead>

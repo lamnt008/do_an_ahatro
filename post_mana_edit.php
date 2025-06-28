@@ -220,16 +220,9 @@ if (isset($_POST['xoaanh'])) {
     include('header.php');
     ?>
 
-    <!-- Phần hiển thị đường dẫn các trang -->
-    <div class="container">
-        <p id="path">
-            <a href="index.php" class="link">Trang chủ / </a>
-            <a href="post_mana.php" class="link">Quản lý phòng /</a>
-            <a class="link">Quản lý phòng chi tiết</a>
-        </p>
-    </div>
 
-    <div class="container" style="margin-bottom: 20px; ">
+
+    <div class="container">
         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
             <div class="row">
                 <form method="POST" onsubmit="return confirmDelete();"

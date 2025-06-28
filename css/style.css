@@ -3,9 +3,19 @@ body {
 }
 
 /* header.css */
+
 .header {
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
+    z-index: 999;
+    background-color: white;
+
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
 }
+
 
 /* Dòng 1 - Top bar */
 .top-bar {
@@ -208,16 +218,13 @@ body {
 
 
 /* banner.css */
-/* body {
-    font-family: Arial, sans-serif;
-    background: #fffaf5;
-    padding: 20px !important;
 
-} */
 .banner {
     font-family: Arial, sans-serif;
     background: #fffaf5;
     padding-left: 30px;
+    margin-top: 118px;
+    margin-right: 0;
 }
 
 .tabs {
@@ -286,10 +293,16 @@ body {
     text-decoration: underline;
 }
 
+.container {
+    display: flex;
+    margin: 118px 0 20px 0;
+}
+
 
 /* siderbar */
 .main-layout {
     display: flex;
+    margin-top: 120px;
 }
 
 .main-content {
@@ -471,28 +484,29 @@ body {
 
 /* footer.css */
 .footer {
-
+    margin: 0;
     background-color: black;
     color: #fff;
-    padding: 20px 0;
-
+    padding: 0;
+    padding-bottom: 5px;
 }
 
-.container {
+.footer-top {
+    margin: 0 20px;
     display: flex;
-
-
+    justify-content: space-between;
     flex-wrap: wrap;
-    max-width: 1200px;
-    margin: auto;
+    width: 100%;
 }
 
 .footer-section {
     flex: 1;
-    min-width: 250px;
-    padding: 10px;
-    justify-content: space-between;
 
+}
+
+
+.footer-section:last-child {
+    padding-left: 350px;
 }
 
 .footer-section h3 {

@@ -41,6 +41,8 @@ $pending_posts = mysqli_query($conn, "SELECT * FROM phong_tro WHERE status = 'pe
 <head>
     <title>Quản lý duyệt tin</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"> -->
+
 
 </head>
 

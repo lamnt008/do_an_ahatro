@@ -18,7 +18,7 @@ $current_category = isset($_GET['id']) ? $_GET['id'] : null;
 
 <body>
     <div class="header">
-        <!-- Dòng 1: Logo và các nút chức năng -->
+
         <div class="top-bar">
             <div class="top-left">
                 <a href="index.php">
@@ -31,16 +31,28 @@ $current_category = isset($_GET['id']) ? $_GET['id'] : null;
                     <a href="saved_posts.php" class="top-link">
                         <i class="fa-solid fa-bookmark"></i> Đã lưu
                     </a>
-
-                    <a href="post.php" class="post-button">
-                        <i class="fa-solid fa-pen-to-square"></i> Đăng tin
-                    </a>
-
-                    <?php if (isset($_SESSION['user_id'])): ?>
-                        <a href="post_mana.php" class="top-link">
-                            <i class="fa-solid fa-gear"></i> Quản lý
+                    <?php
+                    if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] == 'user') {
+                        ?> <a href="post.php" class="post-button">
+                            <i class="fa-solid fa-pen-to-square"></i> Đăng tin
                         </a>
+                        <?php
+                    }
+                    ?>
+
+                    <?php if (isset($_SESSION['user_name']) && isset($_SESSION['user_role'])): ?>
+                        <div style="text-align: right; margin: 10px;">
+                            <?php if ($_SESSION['user_role'] === 'admin'): ?>
+                                <a href="admin_approve.php" class="top-link">
+                                    <i class="fa-solid fa-gear"></i> Quản lý
+                                </a>
+                            <?php elseif ($_SESSION['user_role'] === 'user'): ?>
+                                <a href="post_mana.php" class="top-link">
+                                    <i class="fa-solid fa-gear"></i> Quản lý
+                                <?php endif; ?>
+                        </div>
                     <?php endif; ?>
+
 
                     <div class="hdropdown">
                         <?php if (isset($_SESSION['user_name'])): ?>
@@ -49,6 +61,7 @@ $current_category = isset($_GET['id']) ? $_GET['id'] : null;
                                 <i class="fa-solid fa-caret-down"></i>
                             </div>
                             <div class="hdropdown-menu">
+                                <a href="c_pass.php"><i class="fa-solid fa-right-from-bracket"></i> Đổi mật khẩu</a>
                                 <a href="logout.php"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</a>
                             </div>
                         <?php else: ?>

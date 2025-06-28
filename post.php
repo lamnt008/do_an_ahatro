@@ -1,23 +1,19 @@
 <?php
 include "config.php";
 session_start();
+if (!isset($_SESSION['user_name']) || $_SESSION['user_role'] !== 'user') {
 
-if (!isset($_SESSION['user_name'])) {
-	header('Location: index.php');
-
-
+	header("Location: login.php");
+	exit();
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
 	<title>Đăng tin</title>
-
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -59,44 +55,24 @@ if (!isset($_SESSION['user_name'])) {
 
 <body>
 
-
-	<!-- Khung đăng ký, đăng nhập -->
 	<?php
 	include('header.php');
 	?>
 
-
-
-
-
-
-
-	<!-- Phần hiển thị đường dẫn các trang -->
 	<div class="container">
-		<p id="path">
-			<a href="index.php" class="link">Trang chủ / </a>
-			<a href="DangTinNhanh.php" class="link">Đăng tin nhanh</a>
-		</p>
-	</div>
-
-	<!-- Phần thân để hiển thị phần nhập vào các thông tin của bài đăng -->
-	<div class="container" style="margin-bottom: 20px; ">
 		<div class="row">
 
-
-			<!-- Phần nhập thông tin -->
 			<div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
 				<div class="row">
 
 					<form method="POST" action="post_proc.php" onsubmit="return validateForm()"
 						enctype="multipart/form-data">
 
-						<!-- Phần các thông tin cơ bản -->
 						<div class="col-xs-12">
 							<h3>Các thông tin cơ bản</h3>
 						</div>
 
-						<div class="col-xs-12"> <!-- Tiêu đề tin -->
+						<div class="col-xs-12">
 							<div class="col-xs-12">
 								<h4>Tiêu đề tin <span>* </span> <span class="error_input" id="error_input_title"></span>
 								</h4>
@@ -106,14 +82,6 @@ if (!isset($_SESSION['user_name'])) {
 									placeholder="Hãy đặt tiêu đề đầy đủ ý nghĩa, khách sẽ quan tâm hơn" title="Tiêu đề">
 							</div>
 						</div>
-
-
-
-
-
-
-
-
 
 						<div class="col-xs-12">
 							<h4 class="col-xs-12">Chọn loại phòng <span>*</span> <span class="error_input"
@@ -134,24 +102,6 @@ if (!isset($_SESSION['user_name'])) {
 							?>
 
 						</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 						<div class="col-xs-12"> <!-- Kiểu vệ sinh -->
 							<h4 class="col-xs-12">Kiểu vệ sinh <span>*</span> <span class="error_input"
@@ -250,13 +200,7 @@ if (!isset($_SESSION['user_name'])) {
 								<select id="tinh" name="tinhThanh">
 									<option value="">Chọn tỉnh thành</option>
 								</select>
-
 								<input type="hidden" name="tinhThanh" id="tenTinhHidden">
-
-
-
-
-
 							</div>
 						</div>
 
@@ -283,25 +227,11 @@ if (!isset($_SESSION['user_name'])) {
 							</div>
 						</div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-						<!-- Phần thông tin liên lạc -->
 						<div class="col-xs-12">
 							<h3>Thông tin liên lạc</h3>
 						</div>
 
-						<div class="col-sm-6 col-xs-12"> <!-- Họ và tên chủ trọ -->
+						<div class="col-sm-6 col-xs-12">
 							<div class="col-xs-12">
 								<h4>Tên chủ trọ</h4>
 							</div>
@@ -310,7 +240,7 @@ if (!isset($_SESSION['user_name'])) {
 							</div>
 						</div>
 
-						<div class="col-sm-6 col-xs-12"> <!-- Số điện thoại chủ trọ -->
+						<div class="col-sm-6 col-xs-12">
 							<div class="col-xs-12">
 								<h4>Số điện thoại <span>*</span> <span class="error_input"
 										id="error_input_phone_number"></span></h4>
@@ -321,12 +251,12 @@ if (!isset($_SESSION['user_name'])) {
 							</div>
 						</div>
 
-						<!-- Phần miêu tả chi tiết căn phòng -->
+
 						<div class="col-xs-12">
 							<h3>Thông tin mô tả</h3>
 						</div>
 
-						<div class="col-xs-12"> <!-- Mô tả chi tiết căn phòng -->
+						<div class="col-xs-12">
 							<div class="col-xs-12">
 								<h4>Mô tả <span>*</span> <span class="error_input" id="error_input_describle"></span>
 								</h4>
@@ -342,7 +272,7 @@ if (!isset($_SESSION['user_name'])) {
 							</div>
 						</div>
 
-						<div class="col-xs-12"> <!-- Hình ảnh của căn phòng -->
+						<div class="col-xs-12">
 							<div class="col-xs-12">
 								<h4>Hình ảnh <span>*</span> <span class="error_input" id="error_input_image"></span>
 								</h4>
@@ -370,10 +300,6 @@ if (!isset($_SESSION['user_name'])) {
 				</div>
 			</div>
 
-
-
-
-			<!-- Phần hướng dẫn nhập thông tin -->
 			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 				<h3>Hướng dẫn đăng tin</h3>
 				<b>
@@ -396,7 +322,7 @@ if (!isset($_SESSION['user_name'])) {
 		</div>
 	</div>
 
-	<!-- Phần chân trang -->
+
 	<?php
 	include('footer.php');
 	?>
@@ -424,11 +350,6 @@ if (!isset($_SESSION['user_name'])) {
 			this.value = rawValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 		});
 	</script>
-
-
-
-
-
 
 </body>
 

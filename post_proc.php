@@ -2,7 +2,9 @@
 include "config.php";
 session_start();
 
+
 if (isset($_POST['DangTin'])) {
+
     date_default_timezone_set('Asia/Ho_Chi_Minh');
     $thoiGianDang = date('Y-m-d H:i:s');
 

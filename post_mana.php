@@ -25,7 +25,7 @@ include 'config.php';
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
-            margin-top: 20px;
+            margin-top: 120px;
         }
 
         .search-box {
@@ -116,7 +116,8 @@ include 'config.php';
             </ul>
 
             <?php
-            $username = $_SESSION['user_name'];
+
+            $username = isset($_SESSION['user_name']) ? $_SESSION['user_name'] : null;
             $search_term = isset($_GET['search']) ? trim($_GET['search']) : '';
             $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'all';
 
