@@ -103,7 +103,7 @@ if (!isset($_SESSION['user_name']) || $_SESSION['user_role'] !== 'user') {
 
 						</div>
 
-						<div class="col-xs-12"> <!-- Kiểu vệ sinh -->
+						<div class="col-xs-12">
 							<h4 class="col-xs-12">Kiểu vệ sinh <span>*</span> <span class="error_input"
 									id="error_input_kind_of_toilet"></span></h4>
 							<div class="col-sm-6 col-xs-12">
@@ -115,15 +115,12 @@ if (!isset($_SESSION['user_name']) || $_SESSION['user_role'] !== 'user') {
 							</div>
 						</div>
 
-						<div class="col-xs-6"> <!-- Mức giá cho thuê -->
+						<div class="col-xs-6">
 							<div class="col-xs-12">
 								<h4>Giá cho thuê <span>*</span> <span class="error_input"
 										id="error_input_room_price"></span></h4>
 							</div>
 							<div class="col-xs-12">
-								<!-- <input id="input_room_price" type="number" name="gia" min="0"
-									placeholder="Giá cho thuê(VNĐ)" title="Giá thuê phòng"> -->
-
 								<input id="gia_hienthi" type="text" placeholder="Giá cho thuê (VNĐ)"
 									title="Giá thuê phòng">
 								<input id="input_room_price" type="hidden" name="gia">
@@ -131,7 +128,7 @@ if (!isset($_SESSION['user_name']) || $_SESSION['user_role'] !== 'user') {
 							</div>
 						</div>
 
-						<div class="col-xs-6"> <!-- Diện tích căn phòng -->
+						<div class="col-xs-6">
 							<div class="col-xs-12">
 								<h4>Diện tích <span>*</span> <span class="error_input"
 										id="error_input_room_area"></span></h4>
@@ -142,7 +139,7 @@ if (!isset($_SESSION['user_name']) || $_SESSION['user_role'] !== 'user') {
 							</div>
 						</div>
 
-						<div class="col-xs-6"> <!-- Mức giá cho thuê sử dụng điện-->
+						<div class="col-xs-6">
 							<div class="col-xs-12">
 								<h4>Giá sử dụng điện</h4>
 							</div>
@@ -152,7 +149,7 @@ if (!isset($_SESSION['user_name']) || $_SESSION['user_role'] !== 'user') {
 							</div>
 						</div>
 
-						<div class="col-xs-6"> <!-- Mức giá sử dụng nước -->
+						<div class="col-xs-6">
 							<div class="col-xs-12">
 								<h4>Giá sử dụng nước</h4>
 							</div>
@@ -162,7 +159,7 @@ if (!isset($_SESSION['user_name']) || $_SESSION['user_role'] !== 'user') {
 							</div>
 						</div>
 
-						<div class="col-xs-6"> <!-- Đối tượng cho thuê -->
+						<div class="col-xs-6">
 							<div class="col-xs-12">
 								<h4>Đối tượng cho thuê</h4>
 							</div>
@@ -176,7 +173,7 @@ if (!isset($_SESSION['user_name']) || $_SESSION['user_role'] !== 'user') {
 							</div>
 						</div>
 
-						<div class="col-xs-12"> <!-- Tiện ích căn phòng -->
+						<div class="col-xs-12">
 							<div class="col-xs-12">
 								<h4>Các tiện ích</h4>
 							</div>
@@ -186,7 +183,6 @@ if (!isset($_SESSION['user_name']) || $_SESSION['user_role'] !== 'user') {
 							</div>
 						</div>
 
-						<!-- Phần địa chỉ -->
 						<div class="col-xs-12">
 							<h3>Địa chỉ</h3>
 						</div>
@@ -327,12 +323,10 @@ if (!isset($_SESSION['user_name']) || $_SESSION['user_role'] !== 'user') {
 	include('footer.php');
 	?>
 
-	<!-- Nhúng file javascript -->
 	<script type="text/javascript" src="JSDangTin.js"></script>
 	<script>
-		// Trong trang đăng tin, các biến này sẽ rỗng
-		const initialTinhName = ""; // Không có giá trị ban đầu cho trang đăng tin
-		const initialQuanName = ""; // Không có giá trị ban đầu cho trang đăng tin
+		const initialTinhName = "";
+		const initialQuanName = ""; 
 	</script>
 	<script type="text/javascript" src="address.js"></script>
 	<script>
@@ -340,17 +334,11 @@ if (!isset($_SESSION['user_name']) || $_SESSION['user_role'] !== 'user') {
 		const giaGoc = document.getElementById('input_room_price');
 
 		giaHienThi.addEventListener('input', function () {
-			// Loại bỏ ký tự không phải số
 			let rawValue = this.value.replace(/\D/g, '');
-
-			// Gán lại vào input ẩn để gửi về server
 			giaGoc.value = rawValue;
-
-			// Format lại số có dấu chấm
 			this.value = rawValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 		});
 	</script>
-
 </body>
 
 </html>

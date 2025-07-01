@@ -44,11 +44,11 @@ if ($total_saved > 0) {
     <title>Bài đăng đã lưu</title>
     <link rel="stylesheet" href="css/style.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script> -->
     <style>
         .saved-posts-container {
-            max-width: 1200px;
-            margin: 0 auto;
             padding: 20px;
+            margin-top: 118px;
         }
 
         .saved-header {
@@ -96,11 +96,11 @@ if ($total_saved > 0) {
             </div>
         <?php endif; ?>
     </div>
-    <div>
-        <?php
-        include 'footer.php';
-        ?>
-    </div>
+
+    <?php
+    include 'footer.php';
+    ?>
+
 </body>
 
 </html>

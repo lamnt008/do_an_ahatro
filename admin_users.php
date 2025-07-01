@@ -99,7 +99,7 @@ $users = $result->fetch_all(MYSQLI_ASSOC);
                 <?php unset($_SESSION['message']); ?>
             <?php endif; ?>
 
-            <!-- Thanh tìm kiếm -->
+
             <div class="card mb-4">
                 <div class="card-body">
                     <form method="get" class="row g-3">
@@ -118,7 +118,7 @@ $users = $result->fetch_all(MYSQLI_ASSOC);
                 </div>
             </div>
 
-            <!-- Bảng danh sách -->
+
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive">
@@ -130,8 +130,6 @@ $users = $result->fetch_all(MYSQLI_ASSOC);
                                     <th>Email</th>
                                     <th>Số ĐT</th>
                                     <th>Vai trò</th>
-                                    <!-- <th>Trạng thái</th>
-                                <th>Ngày tạo</th> -->
                                     <th>Thao tác</th>
                                 </tr>
                             </thead>
@@ -147,22 +145,9 @@ $users = $result->fetch_all(MYSQLI_ASSOC);
                                                 <?= $user['role'] === 'admin' ? 'Admin' : 'User' ?>
                                             </span>
                                         </td>
-                                        <!-- <td>
-                                        <span class="badge bg-<?= $user['status'] === 'active' ? 'info' : 'danger' ?>">
-                                            <?= $user['status'] === 'active' ? 'Hoạt động' : 'Bị khóa' ?>
-                                        </span>
-                                    </td> -->
-                                        <!-- <td><?= date('d/m/Y H:i', strtotime($user['created_at'])) ?></td> -->
+
                                         <td class="action-btns">
-                                            <!-- <a href="admin_users.php?action=toggle_status&id=<?= $user['id'] ?>"
-                                            class="btn btn-sm btn-<?= $user['status'] === 'active' ? 'warning' : 'success' ?>">
-                                            <?= $user['status'] === 'active' ? 'Khóa' : 'Mở' ?>
-                                        </a> -->
-                                            <!-- <a href="admin_users.php?action=reset_password&id=<?= $user['id'] ?>"
-                                                class="btn btn-sm btn-secondary"
-                                                onclick="return confirm('Reset mật khẩu về 123456?')">
-                                                Reset MK
-                                            </a> -->
+
                                             <a href="admin_users.php?action=change_role&id=<?= $user['id'] ?>"
                                                 class="btn btn-sm btn-<?= $user['role'] === 'admin' ? 'primary' : 'success' ?>">
                                                 <?= $user['role'] === 'admin' ? 'Hạ quyền' : 'Thăng Admin' ?>

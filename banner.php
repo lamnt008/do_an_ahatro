@@ -18,25 +18,21 @@
         $where = [];
         $params = [];
 
-        // Lọc theo tỉnh
         if (!empty($_GET['tinh'])) {
             $where[] = "TinhThanh = ?";
             $params[] = $_GET['tinh'];
         }
 
-        // Lọc theo quận
         if (!empty($_GET['quan'])) {
             $where[] = "QuanHuyen = ?";
             $params[] = $_GET['quan'];
         }
 
-        // Lọc theo loại phòng
         if (!empty($_GET['id'])) {
             $where[] = "idLoaiPhong = ?";
             $params[] = $_GET['id'];
         }
 
-        // Lọc theo giá thuê
         if (!empty($_GET['gia'])) {
             switch ($_GET['gia']) {
                 case 'duoi-1-trieu':
@@ -74,7 +70,6 @@
             }
         }
 
-        // Lọc theo diện tích
         if (!empty($_GET['dientich'])) {
             switch ($_GET['dientich']) {
                 case 'duoi-20':
@@ -104,18 +99,14 @@
             }
         }
 
-        // Câu SQL tổng
         $sql = "SELECT COUNT(*) as total FROM phong_tro";
         if (!empty($where)) {
             $sql .= " WHERE " . implode(" AND ", $where);
         }
 
-        // Chuẩn bị truy vấn
         $stmt = mysqli_prepare($conn, $sql);
 
-        // Gắn tham số
         if (!empty($params)) {
-            // Xác định loại dữ liệu (số là 'i', chuỗi là 's')
             $types = '';
             foreach ($params as $param) {
                 $types .= is_int($param) ? 'i' : 's';
@@ -123,28 +114,21 @@
             mysqli_stmt_bind_param($stmt, $types, ...$params);
         }
 
-        // Thực thi
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);
         $total_rows = mysqli_fetch_assoc($result)['total'];
-
         echo "Có $total_rows tin đăng cho thuê";
         ?>
-
-
-
-
 
         <h5 style="font-weight: bold;">Chọn khu vực:</h5>
         <div class="tabs" id="city-tabs"></div>
         <div class="districts" id="district-list"></div>
-
     </div>
 
     <script>
         let tinhData = {};
         let quanData = {};
-        const tabUuTien = ["79", "01", "48", "74"]; // HCM, Hà Nội, Đà Nẵng, Bình Dương
+        const tabUuTien = ["79", "01", "48", "74"];
 
         Promise.all([
             fetch('tinh_tp.json').then(res => res.json()),
@@ -155,7 +139,6 @@
 
             const cityTabs = document.getElementById('city-tabs');
 
-            // Tạo tab ưu tiên
             tabUuTien.forEach(maTinh => {
                 const tab = document.createElement('div');
                 tab.className = 'tab';
@@ -167,8 +150,8 @@
                     const currentParams = new URLSearchParams(window.location.search);
 
                     currentParams.set('tinh', selectedTinh);
-                    currentParams.delete('quan'); // 🔥 XÓA QUẬN KHI ĐỔI TỈNH
-                    currentParams.delete('page'); // Xóa phân trang nếu có
+                    currentParams.delete('quan');
+                    currentParams.delete('page');
 
                     window.location.href = window.location.pathname + '?' + currentParams.toString();
                 };
@@ -176,7 +159,7 @@
                 cityTabs.appendChild(tab);
             });
 
-            // Tạo tab Khác với dropdown
+
             const khacTab = document.createElement('div');
             khacTab.className = 'tab';
             khacTab.textContent = 'Khác ▼';
@@ -219,11 +202,11 @@
             const selectedQuanFromURL = urlParams.get('quan');
 
             if (selectedTinhFromURL) {
-                // Tìm mã tỉnh tương ứng
+
                 const maTinhChon = Object.keys(tinhData).find(ma => tinhData[ma].name === selectedTinhFromURL);
 
                 if (maTinhChon) {
-                    // Gán tab active
+
                     const tabs = document.querySelectorAll('.tab');
                     tabs.forEach(tab => {
                         if (tab.textContent.includes(selectedTinhFromURL)) {
@@ -231,7 +214,7 @@
                         }
                     });
 
-                    showDistricts(maTinhChon); // Hiện danh sách quận
+                    showDistricts(maTinhChon);
                 }
             }
 
@@ -257,7 +240,7 @@
                         const currentUrl = new URL(window.location.href);
                         const params = new URLSearchParams(currentUrl.search);
 
-                        // Gán tỉnh và quận
+
                         params.set('tinh', selectedTinh);
                         params.set('quan', selectedQuan);
 

@@ -1,7 +1,6 @@
 <div class="room-container" style="width: 50vw; margin: 10px auto;">
     <?php
 
-    // --- NHẬN THAM SỐ GET ---
     $tinh = isset($_GET['tinh']) ? mysqli_real_escape_string($conn, $_GET['tinh']) : '';
     $quan = isset($_GET['quan']) ? mysqli_real_escape_string($conn, $_GET['quan']) : '';
     $idLoaiPhong = isset($_GET['id']) ? intval($_GET['id']) : 0;
@@ -9,7 +8,6 @@
     $dientich = $_GET['dientich'] ?? '';
     $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
 
-    // $where = [];
     $where = ["pt.status = 'approved'"];
 
     if (!empty($tinh))
@@ -47,7 +45,6 @@
             break;
     }
 
-    // Lọc diện tích
     switch ($dientich) {
         case 'duoi-20':
             $where[] = "pt.DienTich < 20";
@@ -88,11 +85,6 @@
 
     $result = mysqli_query($conn, $sql);
 
-
-
-
-
-
     if (mysqli_num_rows($result) > 0) {
         while ($row = mysqli_fetch_assoc($result)) {
             include 'room.php';
@@ -104,13 +96,7 @@
 
     }
 
-
-
-
-
-
-
-    // Phân trang
+    // Phan trang
     $query_base = $_GET;
     echo '<div class="col-xs-12"><ul class="pagination pull-right">';
     if ($page > 1) {
@@ -139,8 +125,6 @@
 
 </div>
 
-
-
 <script>
     $(document).ready(function () {
         $('.save-post-btn').on('click', function () {
@@ -148,7 +132,7 @@
             var button = $(this);
 
             $.ajax({
-                url: 'save_post.php', // File PHP xử lý lưu/bỏ lưu
+                url: 'save_post.php',
                 type: 'POST',
                 data: {
                     post_id: postId

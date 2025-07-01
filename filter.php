@@ -31,7 +31,6 @@ include 'config.php';
 </div>
 
 <script>
-    // Đặt script này vào cuối file filter.php hoặc file JS chính của bạn
     document.querySelectorAll('.filter-list a').forEach(function (link) {
         link.addEventListener('click', function (e) {
             e.preventDefault();
@@ -42,7 +41,6 @@ include 'config.php';
             const url = new URL(window.location.href);
             url.searchParams.set(param, value);
 
-            // Reset page về 1 nếu đang phân trang
             url.searchParams.delete('page');
 
             window.location.href = url.toString();

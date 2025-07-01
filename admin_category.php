@@ -53,7 +53,6 @@ $loai_phongs = $conn->query("SELECT * FROM loai_phong");
     <div class="main-layout">
         <?php include('siderbar.php'); ?>
         <div class="main-content">
-            <!-- <div style="margin-left:220px; padding:20px;"> -->
             <h2>Quản lý danh mục loại phòng</h2>
             <?php if (!empty($message)): ?>
                 <div class="alert alert-info"><?php echo $message; ?></div>

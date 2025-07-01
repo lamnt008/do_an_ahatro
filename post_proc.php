@@ -8,7 +8,6 @@ if (isset($_POST['DangTin'])) {
     date_default_timezone_set('Asia/Ho_Chi_Minh');
     $thoiGianDang = date('Y-m-d H:i:s');
 
-    // 1. Thêm phòng trọ với status = 'pending'
     $sql_insert_phong_tro = 'INSERT INTO phong_tro(user_name, DiaChi, QuanHuyen, TinhThanh, TenChuTro, Sdt, 
     TieuDe, idLoaiPhong, KieuVeSinh, GiaChoThue, DienTich, GiaDien, GiaNuoc, DoiTuong, TienIch, MoTa, ThoiGianDang, status)
     VALUES (
@@ -35,7 +34,6 @@ if (isset($_POST['DangTin'])) {
     if (mysqli_query($conn, $sql_insert_phong_tro)) {
         $last_id = mysqli_insert_id($conn);
 
-        // 2. Xử lý hình ảnh
         $target_dir = "uploads/";
         $num_of_imgs = count($_FILES['fileToUpload']['name']);
 
@@ -50,7 +48,6 @@ if (isset($_POST['DangTin'])) {
             }
         }
 
-        // Thông báo cho người dùng
         $_SESSION['message'] = "Tin đăng của bạn đã được gửi đi và đang chờ kiểm duyệt từ quản trị viên.";
         header("Location: post_mana.php");
         exit();

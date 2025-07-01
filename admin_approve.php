@@ -66,7 +66,7 @@ $pending_posts = mysqli_query($conn, "SELECT * FROM phong_tro WHERE status = 'pe
             <?php endif; ?>
 
             <table class="table table-bordered">
-                <thead>
+                <thead style="text-align: center;">
                     <tr>
                         <th>ID</th>
                         <th>Tiêu đề</th>

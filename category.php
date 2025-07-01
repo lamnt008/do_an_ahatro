@@ -9,7 +9,6 @@ include 'config.php';
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        // Kiểm tra jQuery đã load chưa
         if (typeof jQuery == 'undefined') {
             document.write('<script src="/path/to/local/jquery.js"><\/script>');
         }
@@ -46,7 +45,6 @@ include 'config.php';
     </div>
 
     <div class="row">
-        <!-- phần khung các tin đã đăng -->
         <div class="col-lg-8 col-md-8 col-sm-12 col-sx-12" id="room_main_content">
             <?php
             include 'room_proc.php';

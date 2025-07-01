@@ -2,9 +2,7 @@
 include 'config.php';
 ?>
 
-<!-- <div class="room-container" style="width: 50vw; margin: 10px auto;"> -->
 <div class="room-item">
-
     <a href="room_detail.php?id=<?php echo $row['IDPhongTro']; ?>">
 
         <?php
@@ -25,7 +23,6 @@ include 'config.php';
             </a>
         </h3>
 
-
         <p><strong>Vị trí:</strong> <?php echo $row['QuanHuyen'] . ", " . $row['TinhThanh']; ?></p>
         <p style="color: red; font-weight: bold;"><strong>Giá thuê:</strong>
             <?php echo number_format($row['GiaChoThue'], 0, ',', '.'); ?> VNĐ</p>
@@ -33,13 +30,8 @@ include 'config.php';
 
         <div class="user-info">
             <?php
-            // Lấy thời gian hiện tại
             $now = time();
-
-            // Lấy thời gian từ CSDL (giả sử cột ThoiGianDang lưu theo định dạng YYYY-MM-DD HH:II:SS)
             $time_posted = strtotime($row['ThoiGianDang']);
-
-            // Tính khoảng cách thời gian
             $time_diff = $now - $time_posted;
 
             if ($time_diff < 60) {
@@ -64,21 +56,7 @@ include 'config.php';
                 <p style="color: gray;"><?php echo $time_ago; ?></p>
             </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
             <?php
-            // Kiểm tra xem bài đăng đã được lưu chưa
             $is_saved = false;
             if (isset($_SESSION['user_id'])) {
                 $user_id = $_SESSION['user_id'];
@@ -90,38 +68,13 @@ include 'config.php';
                 $is_saved = mysqli_num_rows($check_saved) > 0;
             }
             ?>
-
-
-
-
-
             <button class="save-post-btn <?php echo $is_saved ? 'saved' : ''; ?>"
                 data-post-id="<?php echo (int) $row['IDPhongTro']; ?>">
                 <?php echo $is_saved ? '<i class="fas fa-bookmark"></i> Đã lưu' : '<i class="far fa-bookmark"></i> Lưu bài'; ?>
             </button>
-
-
-
-
-
-
-
-
-
-
         </div>
     </div>
 </div>
-<!-- </div> -->
-
-
-
-
-
-
-
-
-
 
 <script>
     $(document).ready(function () {
@@ -132,7 +85,6 @@ include 'config.php';
             var button = $(this);
             var postId = button.data('post-id');
 
-            // Validate client-side trước
             if (!postId || isNaN(postId) || postId <= 0) {
                 console.error('Invalid post ID:', postId);
                 alert('ID bài đăng không hợp lệ');
@@ -158,12 +110,10 @@ include 'config.php';
                             '<i class="fas fa-bookmark"></i> Đã lưu' :
                             '<i class="far fa-bookmark"></i> Lưu bài');
 
-                        // Hiển thị thông báo
                         if (response.message) {
                             console.log(response.message);
                         }
 
-                        // Xử lý cập nhật giao diện
                         if (!response.saved && window.location.pathname.includes('saved_posts.php')) {
                             button.closest('.room-item').fadeOut(300, function () {
                                 $(this).remove();

@@ -11,6 +11,7 @@ include 'config.php';
     <title id="title_room_page">Quản Lý Phòng</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"> -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
@@ -91,7 +92,7 @@ include 'config.php';
 
     <div class="container" style="margin-top: 20px; margin-bottom: 20px;">
         <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
-            <!-- Tab navigation -->
+
             <ul class="nav nav-tabs">
                 <li class="<?php echo (!isset($_GET['tab']) || $_GET['tab'] == 'all') ? 'active' : ''; ?>">
                     <a
@@ -121,12 +122,10 @@ include 'config.php';
             $search_term = isset($_GET['search']) ? trim($_GET['search']) : '';
             $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'all';
 
-            // Xây dựng câu truy vấn SQL cơ bản
             $sql1 = 'SELECT * FROM phong_tro WHERE user_name = ?';
             $params = array($username);
             $types = 's';
 
-            // Thêm điều kiện theo tab
             switch ($current_tab) {
                 case 'pending':
                     $sql1 .= ' AND status = "pending"';
@@ -137,10 +136,8 @@ include 'config.php';
                 case 'rejected':
                     $sql1 .= ' AND status = "rejected"';
                     break;
-                // 'all' không cần thêm điều kiện
             }
 
-            // Thêm điều kiện tìm kiếm nếu có
             if (!empty($search_term)) {
                 if (is_numeric($search_term)) {
                     $sql1 .= ' AND IDPhongTro = ?';
@@ -158,7 +155,6 @@ include 'config.php';
             $stmt1 = $conn->prepare($sql1);
 
             if ($stmt1) {
-                // Bind parameters động
                 $stmt1->bind_param($types, ...$params);
                 $stmt1->execute();
                 $result1 = $stmt1->get_result();

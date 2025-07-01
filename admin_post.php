@@ -80,9 +80,6 @@ include 'config.php';
     </div>
     <div class="container" style="margin-top: 20px; margin-bottom: 20px;">
         <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
-            <!-- Container chứa tiêu đề và ô tìm kiếm -->
-
-
             <div style="height: 20px"></div>
 
             <?php
@@ -94,12 +91,12 @@ include 'config.php';
 
             if (!empty($search_term)) {
                 if (is_numeric($search_term)) {
-                    // Tìm theo ID nếu search_term là số
+
                     $sql1 .= ' AND IDPhongTro = ?';
                     $params[] = (int) $search_term;
                     $types .= 'i';
                 } else {
-                    // Tìm theo tiêu đề nếu search_term là chuỗi
+
                     $sql1 .= ' AND TieuDe LIKE ?';
                     $params[] = '%' . $search_term . '%';
                     $types .= 's';
@@ -111,7 +108,7 @@ include 'config.php';
             $stmt1 = $conn->prepare($sql1);
 
             if ($stmt1) {
-                // Bind parameters động
+
                 $stmt1->bind_param($types, ...$params);
                 $stmt1->execute();
                 $result1 = $stmt1->get_result();

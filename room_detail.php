@@ -5,25 +5,12 @@ include 'header.php';
 if (isset($_GET['id'])) {
 	$idPhong = intval($_GET['id']);
 
-
-
-
-	// $sql = "SELECT pt.*, lp.loaiPhong 
-	//         FROM phong_tro pt
-	//         JOIN loai_phong lp ON pt.idLoaiPhong = lp.idLoaiPhong
-	//         WHERE pt.IDPhongTro = $idPhong";
-
-	// $result = mysqli_query($conn, $sql);
-
-
-
 	$sql = "SELECT pt.*, lp.loaiPhong 
 	        FROM phong_tro pt
 	        JOIN loai_phong lp ON pt.idLoaiPhong = lp.idLoaiPhong
 	       WHERE pt.IDPhongTro = $idPhong";
 	if ($_SESSION['user_role'] == 'user') {
 		$sql .= " AND status = 'approved'";
-
 	}
 	$result = mysqli_query($conn, $sql);
 	if ($result->num_rows == 0) {
@@ -32,13 +19,11 @@ if (isset($_GET['id'])) {
 		exit();
 	}
 
-
 	if (mysqli_num_rows($result) > 0) {
 		$phong = mysqli_fetch_assoc($result);
 
 		$sql_img = "SELECT DuongDan FROM hinh_anh_phong_tro WHERE IDPhongTro = $idPhong";
 		$result_img = mysqli_query($conn, $sql_img);
-
 	} else {
 		echo "Không tìm thấy phòng trọ.";
 		exit;
@@ -55,8 +40,6 @@ if (isset($_GET['id'])) {
 <head>
 	<meta charset="UTF-8">
 	<title><?php echo htmlspecialchars($phong['TieuDe']); ?></title>
-
-
 	<style>
 		body {
 			font-family: "Segoe UI", sans-serif;
@@ -66,10 +49,11 @@ if (isset($_GET['id'])) {
 		}
 
 		.detail-container {
-			max-width: 1000px;
 			background: white;
-			margin: 30px auto;
-			padding: 30px;
+			margin-top: 75px;
+			padding-top: 30px;
+			margin-left: auto;
+			padding-left: 150px;
 			box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
 			border-radius: 10px;
 		}

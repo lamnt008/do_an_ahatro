@@ -2,7 +2,6 @@
 session_start();
 include 'config.php';
 
-// Kiểm tra đăng nhập
 if (!isset($_SESSION['user_id'])) {
     echo "Bạn cần đăng nhập để thay đổi mật khẩu.";
     exit;
@@ -10,11 +9,9 @@ if (!isset($_SESSION['user_id'])) {
 
 $id = $_SESSION['user_id'];
 
-// Lấy thông tin người dùng
 $result = mysqli_query($conn, "SELECT username, sdt, password FROM users WHERE id = $id");
 $user = mysqli_fetch_assoc($result);
 
-// Xử lý cập nhật mật khẩu
 $message = "";
 
 if (isset($_POST['update_password'])) {

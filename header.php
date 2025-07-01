@@ -78,7 +78,7 @@ $current_category = isset($_GET['id']) ? $_GET['id'] : null;
             </div>
         </div>
 
-        <!-- Dòng 2: Danh mục loại phòng -->
+
         <div class="category-bar">
             <?php
             include 'config.php';

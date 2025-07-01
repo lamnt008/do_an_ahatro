@@ -11,7 +11,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
 
-    // Kiểm tra dữ liệu
     if (empty($username) || empty($sdt) || empty($email) || empty($password) || empty($confirm_password)) {
         $errors[] = "Vui lòng điền đầy đủ tất cả các trường.";
     }
@@ -24,7 +23,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = "Mật khẩu nhập lại không khớp.";
     }
 
-    // Kiểm tra username hoặc email đã tồn tại
     $stmt = $conn->prepare("SELECT id FROM users WHERE username = ? OR email = ?");
     $stmt->bind_param("ss", $username, $email);
     $stmt->execute();
@@ -34,9 +32,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = "Tên đăng nhập hoặc email đã tồn tại.";
     }
 
-    // Nếu không có lỗi thì thêm vào DB
     if (empty($errors)) {
-        $role = 'user'; // mặc định là user
+        $role = 'user';
 
         $stmt = $conn->prepare("INSERT INTO users (username, password, email, role, sdt) VALUES (?, ?, ?, ?, ?)");
         $stmt->bind_param("sssss", $username, $password, $email, $role, $sdt);

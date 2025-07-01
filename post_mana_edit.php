@@ -173,9 +173,7 @@ if (isset($_POST['xoaanh'])) {
 
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- <script type="text/javascript" src="vendor/bootstrap.js"></script>
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
-    <link rel="stylesheet" href="vendor/bootstrap.css"> -->
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"> -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
@@ -227,13 +225,9 @@ if (isset($_POST['xoaanh'])) {
             <div class="row">
                 <form method="POST" onsubmit="return confirmDelete();"
                     action="post_mana_edit.php?id=<?php echo $IDPhongTro; ?>" enctype="multipart/form-data">
-                    <!-- Phần các thông tin cơ bản -->
                     <div class="col-xs-12">
                         <h3>Các thông tin cơ bản</h3>
                     </div>
-
-
-
 
                     <div class="col-xs-12">
                         <div class="col-xs-12">
@@ -245,9 +239,7 @@ if (isset($_POST['xoaanh'])) {
                         </div>
                     </div>
 
-
-
-                    <div class="col-xs-12"> <!-- Tiêu đề tin -->
+                    <div class="col-xs-12">
                         <div class="col-xs-12">
                             <h4>Tiêu đề tin <span>*</span> <span class="error_input" id="error_input_title"></span></h4>
                         </div>
@@ -258,11 +250,6 @@ if (isset($_POST['xoaanh'])) {
                         </div>
                     </div>
 
-
-
-
-
-
                     <div class="col-xs-12">
                         <h4 class="col-xs-12">Chọn loại phòng <span>*</span> <span class="error_input"
                                 id="error_input_kind_of_room"></span></h4>
@@ -270,7 +257,6 @@ if (isset($_POST['xoaanh'])) {
                         $sql_loaiPhong = "SELECT idLoaiPhong, loaiPhong FROM loai_phong";
                         $result_loaiPhong = mysqli_query($conn, $sql_loaiPhong);
                         while ($row = mysqli_fetch_assoc($result_loaiPhong)) {
-                            // Kiểm tra nếu loại phòng của phòng trọ hiện tại trùng với loại phòng trong danh sách
                             $checked = ($row['idLoaiPhong'] == $room['idLoaiPhong']) ? 'checked' : '';
                             ?>
                             <div class="col-sm-6 col-xs-12">
@@ -282,11 +268,7 @@ if (isset($_POST['xoaanh'])) {
                         ?>
                     </div>
 
-
-
-
-
-                    <div class="col-xs-12"> <!-- Kiểu vệ sinh -->
+                    <div class="col-xs-12">
                         <h4 class="col-xs-12">Kiểu vệ sinh <span>*</span> <span class="error_input"
                                 id="error_input_kind_of_toilet"></span></h4>
                         <div class="col-sm-6 col-xs-12">
@@ -299,7 +281,7 @@ if (isset($_POST['xoaanh'])) {
                         </div>
                     </div>
 
-                    <div class="col-xs-6"> <!-- Mức giá cho thuê -->
+                    <div class="col-xs-6">
                         <div class="col-xs-12">
                             <h4>Giá cho thuê <span>*</span> <span class="error_input"
                                     id="error_input_room_price"></span></h4>
@@ -311,7 +293,7 @@ if (isset($_POST['xoaanh'])) {
                         </div>
                     </div>
 
-                    <div class="col-xs-6"> <!-- Diện tích căn phòng -->
+                    <div class="col-xs-6">
                         <div class="col-xs-12">
                             <h4>Diện tích <span>*</span> <span class="error_input" id="error_input_room_area"></span>
                             </h4>
@@ -323,7 +305,7 @@ if (isset($_POST['xoaanh'])) {
                         </div>
                     </div>
 
-                    <div class="col-xs-6"> <!-- Mức giá cho thuê sử dụng điện-->
+                    <div class="col-xs-6">
                         <div class="col-xs-12">
                             <h4>Giá điện <span>*</span> <span class="error_input"
                                     id="error_input_electric_price"></span></h4>
@@ -335,7 +317,7 @@ if (isset($_POST['xoaanh'])) {
                         </div>
                     </div>
 
-                    <div class="col-xs-6"> <!-- Mức giá cho thuê sử dụng nước-->
+                    <div class="col-xs-6">
                         <div class="col-xs-12">
                             <h4>Giá nước <span>*</span> <span class="error_input" id="error_input_water_price"></span>
                             </h4>
@@ -347,7 +329,7 @@ if (isset($_POST['xoaanh'])) {
                         </div>
                     </div>
 
-                    <div class="col-xs-12"> <!-- Chọn đối tượng cho thuê -->
+                    <div class="col-xs-12">
                         <div class="col-xs-12">
                             <h4>Đối tượng cho thuê <span>*</span> <span class="error_input"
                                     id="error_input_room_person"></span></h4>
@@ -370,7 +352,7 @@ if (isset($_POST['xoaanh'])) {
                         </div>
                     </div>
 
-                    <div class="col-xs-12"> <!-- Chọn tiện ích của căn phòng -->
+                    <div class="col-xs-12">
                         <div class="col-xs-12">
                             <h4>Tiện ích</h4>
                         </div>
@@ -381,7 +363,7 @@ if (isset($_POST['xoaanh'])) {
                         </div>
                     </div>
 
-                    <div class="col-xs-12"> <!-- Mô tả thêm -->
+                    <div class="col-xs-12">
                         <div class="col-xs-12">
                             <h4>Mô tả thêm</h4>
                         </div>
@@ -391,15 +373,6 @@ if (isset($_POST['xoaanh'])) {
                         </div>
                     </div>
 
-
-
-
-
-
-
-
-
-                    <!-- Phần địa chỉ -->
                     <div class="col-xs-12">
                         <div class="col-xs-12">
                             <h4>Địa chỉ</h4>
@@ -428,16 +401,14 @@ if (isset($_POST['xoaanh'])) {
                             </select>
                         </div>
                     </div>
+
                     <script>
-                        // Đảm bảo biến $room['TinhThanh'] và $room['QuanHuyen'] có sẵn từ PHP
                         const initialTinhName = "<?php echo htmlspecialchars($room['TinhThanh'] ?? ''); ?>";
                         const initialQuanName = "<?php echo htmlspecialchars($room['QuanHuyen'] ?? ''); ?>";
                     </script>
                     <script type="text/javascript" src="address.js"></script>
 
-
-
-                    <div class="col-xs-12" style="margin-top: 10px;"> <!-- Địa chỉ căn phòng -->
+                    <div class="col-xs-12" style="margin-top: 10px;">
                         <div class="col-xs-12">
                             <h4>Địa chỉ cụ thể <span>*</span> <span class="error_input" id="error_input_address"></span>
                             </h4>
@@ -449,7 +420,7 @@ if (isset($_POST['xoaanh'])) {
                     </div>
 
 
-                    <div class="col-xs-12" style="margin-top: 10px;"> <!-- Thông tin liên hệ -->
+                    <div class="col-xs-12" style="margin-top: 10px;">
                         <div class="col-xs-12">
                             <h4>Thông Tin Liên Hệ <span>*</span> <span class="error_input"
                                     id="error_input_contact_info"></span></h4>
@@ -483,11 +454,11 @@ if (isset($_POST['xoaanh'])) {
                     <div class=" col-xs-12 " style="margin-block-start:30px;">
                         <div class="col-lg-6 col-xs-12  text-left">
                             <button type="submit" name="update" class="btn btn-primary"
-                                style="background-color: rgb(175, 0, 0);">Cập nhật thông tin</button>
+                                style="background-color: rgb(175, 0, 0);">Cập nhật</button>
                         </div>
                         <div class="col-lg-6 col-xs-12  text-right">
                             <button type="submit" name="delete" class="btn btn-primary"
-                                style="background-color: rgb(175, 0, 0);">Xóa phòng</button>
+                                style="background-color: rgb(175, 0, 0);">Xóa</button>
                         </div>
                     </div>
                 </form>
@@ -500,7 +471,6 @@ if (isset($_POST['xoaanh'])) {
             <h3>Hình ảnh phòng trọ</h3>
 
             <div id="myCarousel" class="carousel slide" data-ride="carousel">
-                <!-- Indicators -->
                 <ol class="carousel-indicators">
                     <?php
                     $sql2 = 'SELECT DuongDan FROM hinh_anh_phong_tro WHERE IDPhongTro = ?';
@@ -525,12 +495,11 @@ if (isset($_POST['xoaanh'])) {
                     ?>
                 </ol>
 
-                <!-- Wrapper for slides -->
                 <div class="carousel-inner">
                     <?php
                     $count = 0;
                     foreach ($images as $Image) {
-                        $Image = trim($Image); // Loại bỏ khoảng trắng thừa (nếu có)
+                        $Image = trim($Image);
                         if (!empty($Image)) {
                             if ($count == 0) {
                                 echo '<div class="item active">
@@ -547,8 +516,6 @@ if (isset($_POST['xoaanh'])) {
                     ?>
                 </div>
 
-
-                <!-- Left and right controls -->
                 <a class="left carousel-control" href="#myCarousel" data-slide="prev">
                     <span class="glyphicon glyphicon-chevron-left"></span>
                     <span class="sr-only">Previous</span>
@@ -576,11 +543,11 @@ if (isset($_POST['xoaanh'])) {
                 <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 text-left">
                         <button type="submit" class="btn btn-success" name="themanh"
-                            style="background-color: rgb(175, 0, 0);">Thêm Ảnh</button>
+                            style="background-color: rgb(175, 0, 0);">Thêm ảnh</button>
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 text-right">
                         <button type="submit" class="btn btn-danger" name="xoaanh"
-                            style="background-color: rgb(175, 0, 0);">Xóa Tất Cả Ảnh</button>
+                            style="background-color: rgb(175, 0, 0);">Xóa tất cả</button>
                     </div>
                 </div>
                 <div class="col-row">
@@ -596,21 +563,13 @@ if (isset($_POST['xoaanh'])) {
     </div>
     </div>
 
-    <!-- Phần chân trang -->
     <?php
     include('footer.php');
     ?>
 
-
     <script type="text/javascript" src="scripts/JSDangTin.js"></script>
     <script type="text/javascript" src="scripts/JavaScript.js"></script>
 
-
-    <script type="text/javascript">
-
-
-
-    </script>
 </body>
 
 </html>
