@@ -25,11 +25,13 @@ if ($total_saved > 0) {
     }
     $ids_string = implode(",", $post_ids);
 
-    $sql_posts = "SELECT pt.*, lp.loaiPhong 
-                 FROM phong_tro pt
-                 JOIN loai_phong lp ON pt.idLoaiPhong = lp.idLoaiPhong
-                 WHERE pt.IDPhongTro IN ($ids_string)
-                 ORDER BY FIELD(pt.IDPhongTro, $ids_string)";
+    $sql_posts = "SELECT pt.*, lp.loaiPhong, u.username 
+              FROM phong_tro pt
+              JOIN loai_phong lp ON pt.idLoaiPhong = lp.idLoaiPhong
+              JOIN users u ON pt.userID = u.id
+              WHERE pt.id IN ($ids_string)
+              ORDER BY FIELD(pt.id, $ids_string)";
+
 
     $result_posts = mysqli_query($conn, $sql_posts);
 }

@@ -40,7 +40,7 @@ $current_category = isset($_GET['id']) ? $_GET['id'] : null;
                     }
                     ?>
 
-                    <?php if (isset($_SESSION['user_name']) && isset($_SESSION['user_role'])): ?>
+                    <?php if (isset($_SESSION['user_id']) && isset($_SESSION['user_role'])): ?>
                         <div style="text-align: right; margin: 10px;">
                             <?php if ($_SESSION['user_role'] === 'admin'): ?>
                                 <a href="admin_approve.php" class="top-link">
@@ -49,7 +49,8 @@ $current_category = isset($_GET['id']) ? $_GET['id'] : null;
                             <?php elseif ($_SESSION['user_role'] === 'user'): ?>
                                 <a href="post_mana.php" class="top-link">
                                     <i class="fa-solid fa-gear"></i> Quản lý
-                                <?php endif; ?>
+                                </a>
+                            <?php endif; ?>
                         </div>
                     <?php endif; ?>
 

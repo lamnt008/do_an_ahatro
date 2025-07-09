@@ -2,19 +2,17 @@
 session_start();
 
 if (isset($_GET['id'])) {
-    $IDPhongTro = $_GET['id'];
+    $id_tro = $_GET['id'];
 } else {
     echo "ID phòng trọ không được cung cấp!";
     exit();
 }
 
-// Kết nối đến cơ sở dữ liệu
 include('config.php');
 
-// Lấy thông tin phòng trọ từ cơ sở dữ liệu
-$sql = 'SELECT * FROM phong_tro WHERE IDPhongTro = ?';
+$sql = 'SELECT * FROM phong_tro WHERE id = ?';
 $stmt = $conn->prepare($sql);
-$stmt->bind_param('i', $IDPhongTro);
+$stmt->bind_param('i', $id_tro);
 $stmt->execute();
 $result = $stmt->get_result();
 
@@ -24,38 +22,38 @@ if ($result->num_rows > 0) {
     echo "Phòng trọ không tồn tại!";
     exit();
 }
-// Xử lý khi người dùng gửi form cập nhật
+
 
 if (isset($_POST['update'])) {
 
-    $diaChi = mysqli_real_escape_string($conn, $_POST['DiaChi']);
+    $diaChi = mysqli_real_escape_string($conn, $_POST['diaChi']);
     $quanHuyen = mysqli_real_escape_string($conn, $_POST['quanHuyen']);
     $tinhThanh = mysqli_real_escape_string($conn, $_POST['tinhThanh']);
-    $tenChuTro = mysqli_real_escape_string($conn, $_POST['TenChuTro']);
-    $sdt = mysqli_real_escape_string($conn, $_POST['Sdt']);
-    $tieuDe = mysqli_real_escape_string($conn, $_POST['TieuDe']);
+    $chuTro = mysqli_real_escape_string($conn, $_POST['chuTro']);
+    $sdt = mysqli_real_escape_string($conn, $_POST['sdt']);
+    $tieuDe = mysqli_real_escape_string($conn, $_POST['tieuDe']);
     $idLoaiPhong = mysqli_real_escape_string($conn, $_POST['idLoaiPhong']);
-    $veSinh = mysqli_real_escape_string($conn, $_POST['KieuVeSinh']);
-    $gia = mysqli_real_escape_string($conn, $_POST['GiaChoThue']);
-    $dienTich = mysqli_real_escape_string($conn, $_POST['DienTich']);
-    $dien = mysqli_real_escape_string($conn, $_POST['GiaDien']);
-    $nuoc = mysqli_real_escape_string($conn, $_POST['GiaNuoc']);
-    $doiTuong = mysqli_real_escape_string($conn, $_POST['DoiTuong']);
-    $tienIch = mysqli_real_escape_string($conn, $_POST['TienIch']);
-    $moTa = mysqli_real_escape_string($conn, $_POST['MoTa']);
+    $veSinh = mysqli_real_escape_string($conn, $_POST['veSinh']);
+    $gia = mysqli_real_escape_string($conn, $_POST['giaThue']);
+    $dienTich = mysqli_real_escape_string($conn, $_POST['dienTich']);
+    $dien = mysqli_real_escape_string($conn, $_POST['dien']);
+    $nuoc = mysqli_real_escape_string($conn, $_POST['nuoc']);
+    $doiTuong = mysqli_real_escape_string($conn, $_POST['doiTuong']);
+    $tienIch = mysqli_real_escape_string($conn, $_POST['tienIch']);
+    $moTa = mysqli_real_escape_string($conn, $_POST['moTa']);
 
 
 
-    $update_sql = "UPDATE phong_tro SET DiaChi = ?, QuanHuyen = ?, TinhThanh = ? , TenChuTro = ?, Sdt = ?,
-    TieuDe = ?, idLoaiPhong = ?, KieuVeSinh = ?, GiaChoThue = ?, DienTich = ?, GiaDien = ?, GiaNuoc = ?,
-     DoiTuong = ?, TienIch = ?, MoTa = ?, status = 'pending' WHERE IDPhongTro = ?";
+    $update_sql = "UPDATE phong_tro SET diaChi = ?, quanHuyen = ?, tinhThanh = ? , chuTro = ?, sdt = ?,
+    tieuDe = ?, idLoaiPhong = ?, veSinh = ?, giaThue = ?, dienTich = ?, dien = ?, nuoc = ?,
+     doiTuong = ?, tienIch = ?, moTa = ?, trangThai = 'cho_duyet' WHERE id = ?";
     $update_stmt = $conn->prepare($update_sql);
     $update_stmt->bind_param(
         "ssssssisiisssssi",
         $diaChi,
         $quanHuyen,
         $tinhThanh,
-        $tenChuTro,
+        $chuTro,
         $sdt,
         $tieuDe,
         $idLoaiPhong,
@@ -67,7 +65,7 @@ if (isset($_POST['update'])) {
         $doiTuong,
         $tienIch,
         $moTa,
-        $IDPhongTro
+        $id_tro
     );
 
     if ($update_stmt->execute()) {
@@ -79,21 +77,20 @@ if (isset($_POST['update'])) {
     }
 }
 if (isset($_POST['delete'])) {
-    // Bắt đầu transaction
     $conn->begin_transaction();
 
-    // Xóa ảnh phòng trọ từ cơ sở dữ liệu
     $delete2_sql = "DELETE FROM hinh_anh_phong_tro WHERE IDPhongTro = ?";
     $delete2_stmt = $conn->prepare($delete2_sql);
-    $delete2_stmt->bind_param("i", $IDPhongTro);
+    $delete2_stmt->bind_param("i", $id_tro);
 
-    // Xóa phòng trọ từ cơ sở dữ liệu
-    $delete_sql = "DELETE FROM phong_tro WHERE IDPhongTro = ?";
+
+    $delete_sql = "DELETE FROM phong_tro WHERE id = ?";
     $delete_stmt = $conn->prepare($delete_sql);
-    $delete_stmt->bind_param("i", $IDPhongTro);
+
+    $delete_stmt->bind_param("i", $id_tro);
 
     if ($delete2_stmt->execute() && $delete_stmt->execute()) {
-        // Commit transaction
+
         $conn->commit();
         echo "<script>
                 alert('Phòng đã được xóa thành công!');
@@ -107,46 +104,43 @@ if (isset($_POST['delete'])) {
 
 }
 if (isset($_POST['themanh'])) {
-    // Kiểm tra xem ảnh có được tải lên không
-    if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
-        $image = $_FILES['image'];
-        $imagePath = 'uploads/' . basename($image['name']);
+    if (isset($_FILES['image'])) {
+        $total = count($_FILES['image']['name']);
+        for ($i = 0; $i < $total; $i++) {
+            if ($_FILES['image']['error'][$i] === 0) {
+                $tmpName = $_FILES['image']['tmp_name'][$i];
+                $fileName = basename($_FILES['image']['name'][$i]);
+                $imagePath = 'uploads/' . $fileName;
 
-        // Di chuyển ảnh tải lên vào thư mục đích
-        if (move_uploaded_file($image['tmp_name'], $imagePath)) {
-            // Lưu đường dẫn ảnh vào cơ sở dữ liệu
-            $add_anh_sql = "INSERT INTO hinh_anh_phong_tro (IDPhongTro, DuongDan) VALUES (?, ?)";
-            $add_anh_stmt = $conn->prepare($add_anh_sql);
-            $add_anh_stmt->bind_param("is", $IDPhongTro, $imagePath);
-
-            if ($add_anh_stmt->execute()) {
-                $message = "Ảnh đã được thêm thành công!";
-            } else {
-                $message = "Lỗi: " . $conn->error;
+                if (move_uploaded_file($tmpName, $imagePath)) {
+                    $add_anh_sql = "INSERT INTO hinh_anh_phong_tro (IDPhongTro, DuongDan) VALUES (?, ?)";
+                    $add_anh_stmt = $conn->prepare($add_anh_sql);
+                    $add_anh_stmt->bind_param("is", $id_tro, $imagePath);
+                    $add_anh_stmt->execute();
+                }
             }
-        } else {
-            $message = "Lỗi khi tải lên ảnh.";
         }
-    } else {
-        $message = "Ảnh chưa được chọn hoặc có lỗi khi tải lên.";
+        $message = "Đã thêm ảnh thành công!";
     }
+
+
 }
 
-// Xóa tất cả ảnh
+
 if (isset($_POST['xoaanh'])) {
-    // Kiểm tra xem có ảnh nào không
+
     $check_anh_sql = "SELECT COUNT(*) AS count FROM hinh_anh_phong_tro WHERE IDPhongTro = ?";
     $check_anh_stmt = $conn->prepare($check_anh_sql);
-    $check_anh_stmt->bind_param("i", $IDPhongTro);
+    $check_anh_stmt->bind_param("i", $id_tro);
     $check_anh_stmt->execute();
     $result = $check_anh_stmt->get_result();
     $row = $result->fetch_assoc();
 
     if ($row['count'] > 0) {
-        // Xóa tất cả ảnh liên quan đến ID phòng trọ
+
         $delete_anh_sql = "DELETE FROM hinh_anh_phong_tro WHERE IDPhongTro = ?";
         $delete_anh_stmt = $conn->prepare($delete_anh_sql);
-        $delete_anh_stmt->bind_param("i", $IDPhongTro);
+        $delete_anh_stmt->bind_param("i", $id_tro);
 
         if ($delete_anh_stmt->execute()) {
             $message = "Tất cả ảnh đã được xóa thành công!";
@@ -224,7 +218,7 @@ if (isset($_POST['xoaanh'])) {
         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
             <div class="row">
                 <form method="POST" onsubmit="return confirmDelete();"
-                    action="post_mana_edit.php?id=<?php echo $IDPhongTro; ?>" enctype="multipart/form-data">
+                    action="post_mana_edit.php?id=<?php echo $id_tro; ?>" enctype="multipart/form-data">
                     <div class="col-xs-12">
                         <h3>Các thông tin cơ bản</h3>
                     </div>
@@ -235,7 +229,7 @@ if (isset($_POST['xoaanh'])) {
                         </div>
                         <div class="col-xs-12">
                             <input readonly id="id_post" type="text" name="id_post" maxlength="80" style="width: 100%"
-                                value="<?php echo htmlspecialchars($room['IDPhongTro']); ?>">
+                                value="<?php echo htmlspecialchars($room['id']); ?>">
                         </div>
                     </div>
 
@@ -244,9 +238,9 @@ if (isset($_POST['xoaanh'])) {
                             <h4>Tiêu đề tin <span>*</span> <span class="error_input" id="error_input_title"></span></h4>
                         </div>
                         <div class="col-xs-12">
-                            <input id="input_title" type="text" name="TieuDe" maxlength="80" style="width: 100%"
+                            <input id="input_title" type="text" name="tieuDe" maxlength="80" style="width: 100%"
                                 placeholder="Hãy đặt tiêu đề đầy đủ ý nghĩa, khách sẽ quan tâm hơn" title="Tiêu đề"
-                                value="<?php echo htmlspecialchars($room['TieuDe']); ?>">
+                                value="<?php echo htmlspecialchars($room['tieuDe']); ?>">
                         </div>
                     </div>
 
@@ -272,11 +266,11 @@ if (isset($_POST['xoaanh'])) {
                         <h4 class="col-xs-12">Kiểu vệ sinh <span>*</span> <span class="error_input"
                                 id="error_input_kind_of_toilet"></span></h4>
                         <div class="col-sm-6 col-xs-12">
-                            <input name="KieuVeSinh" type="radio" value="Khép kín" style="width: 13px;" <?php if ($room['KieuVeSinh'] == 'Khép kín')
+                            <input name="veSinh" type="radio" value="Khép kín" style="width: 13px;" <?php if ($room['veSinh'] == 'Khép kín')
                                 echo 'checked'; ?> /> Khép kín
                         </div>
                         <div class="col-sm-6 col-xs-12">
-                            <input name="KieuVeSinh" type="radio" value="Không khép kín" style="width: 13px;" <?php if ($room['KieuVeSinh'] == 'Không khép kín')
+                            <input name="veSinh" type="radio" value="Không khép kín" style="width: 13px;" <?php if ($room['veSinh'] == 'Không khép kín')
                                 echo 'checked'; ?> /> Không khép kín
                         </div>
                     </div>
@@ -287,9 +281,9 @@ if (isset($_POST['xoaanh'])) {
                                     id="error_input_room_price"></span></h4>
                         </div>
                         <div class="col-xs-12">
-                            <input id="input_room_price" type="number" name="GiaChoThue" min="0"
+                            <input id="input_room_price" type="number" name="giaThue" min="0"
                                 placeholder="Giá cho thuê(VNĐ)" title="Giá thuê phòng"
-                                value="<?php echo htmlspecialchars($room['GiaChoThue']); ?>">
+                                value="<?php echo htmlspecialchars($room['giaThue']); ?>">
                         </div>
                     </div>
 
@@ -299,9 +293,9 @@ if (isset($_POST['xoaanh'])) {
                             </h4>
                         </div>
                         <div class="col-xs-12">
-                            <input id="input_room_area" type="number" name="DienTich" min="0"
+                            <input id="input_room_area" type="number" name="dienTich" min="0"
                                 placeholder="Diện tích(đơn vị m²)" title="Diện tích căn phòng"
-                                value="<?php echo htmlspecialchars($room['DienTich']); ?>">
+                                value="<?php echo htmlspecialchars($room['dienTich']); ?>">
                         </div>
                     </div>
 
@@ -311,9 +305,9 @@ if (isset($_POST['xoaanh'])) {
                                     id="error_input_electric_price"></span></h4>
                         </div>
                         <div class="col-xs-12">
-                            <input id="input_electric_price" type="text" name="GiaDien" min="0"
+                            <input id="input_electric_price" type="text" name="dien" mi n="0"
                                 placeholder="Giá điện(đơn vị kWh)" title="Giá điện sử dụng"
-                                value="<?php echo htmlspecialchars($room['GiaDien']); ?>">
+                                value="<?php echo htmlspecialchars($room['dien']); ?>">
                         </div>
                     </div>
 
@@ -323,9 +317,9 @@ if (isset($_POST['xoaanh'])) {
                             </h4>
                         </div>
                         <div class="col-xs-12">
-                            <input id="input_water_price" type="text" name="GiaNuoc" min="0"
+                            <input id="input_water_price" type="text" name="nuoc" min="0"
                                 placeholder="Giá nước(đơn vị m³)" title="Giá nước sử dụng"
-                                value="<?php echo htmlspecialchars($room['GiaNuoc']); ?>">
+                                value="<?php echo htmlspecialchars($room['nuoc']); ?>">
                         </div>
                     </div>
 
@@ -335,18 +329,18 @@ if (isset($_POST['xoaanh'])) {
                                     id="error_input_room_person"></span></h4>
                         </div>
                         <div class="col-xs-12">
-                            <select id="input_room_person" name="DoiTuong" title="Đối tượng cho thuê">
-                                <option value="Tất cả" <?php if ($room['DoiTuong'] == 'Tất cả')
+                            <select id="input_room_person" name="doiTuong" title="Đối tượng cho thuê">
+                                <option value="Tất cả" <?php if ($room['doiTuong'] == 'Tất cả')
                                     echo 'selected'; ?>>Tất cả
                                 </option>
-                                <option value="Nam" <?php if ($room['DoiTuong'] == 'Nam')
+                                <option value="Nam" <?php if ($room['doiTuong'] == 'Nam')
                                     echo 'selected'; ?>>Nam</option>
-                                <option value="Nữ" <?php if ($room['DoiTuong'] == 'Nữ')
+                                <option value="Nữ" <?php if ($room['doiTuong'] == 'Nữ')
                                     echo 'selected'; ?>>Nữ</option>
-                                <option value="Sinh viên" <?php if ($room['DoiTuong'] == 'Sinh viên')
+                                <option value="Sinh viên" <?php if ($room['doiTuong'] == 'Sinh viên')
                                     echo 'selected'; ?>>
                                     Sinh viên</option>
-                                <option value="Nhân viên văn phòng" <?php if ($room['DoiTuong'] == 'Nhân viên văn phòng')
+                                <option value="Nhân viên văn phòng" <?php if ($room['doiTuong'] == 'Nhân viên văn phòng')
                                     echo 'selected'; ?>>Nhân viên văn phòng</option>
                             </select>
                         </div>
@@ -357,7 +351,7 @@ if (isset($_POST['xoaanh'])) {
                             <h4>Tiện ích</h4>
                         </div>
                         <div class="col-xs-12">
-                            <textarea id="input_room_utilities" name="TienIch" rows="5" style="width: 100%;"
+                            <textarea id="input_room_utilities" name="tienIch" rows="5" style="width: 100%;"
                                 title="Tiện ích căn phòng">
                         </textarea>
                         </div>
@@ -368,8 +362,8 @@ if (isset($_POST['xoaanh'])) {
                             <h4>Mô tả thêm</h4>
                         </div>
                         <div class="col-xs-12">
-                            <textarea id="input_room_description" name="MoTa" rows="5" style="width: 100%;"
-                                title="Mô tả căn phòng"><?php echo htmlspecialchars($room['MoTa']); ?></textarea>
+                            <textarea id="input_room_description" name="moTa" rows="5" style="width: 100%;"
+                                title="Mô tả căn phòng"><?php echo htmlspecialchars($room['moTa']); ?></textarea>
                         </div>
                     </div>
 
@@ -384,10 +378,25 @@ if (isset($_POST['xoaanh'])) {
                             <h4>Tỉnh thành <span>*</span></h4>
                         </div>
                         <div class="col-xs-12">
-                            <select id="tinh" name="tinhThanh">
-                                <option value=""><?php echo htmlspecialchars($room['TinhThanh']); ?></option>
+
+
+
+                            <select id="tinh" name="maTinh">
+                                <option value="">Chọn tỉnh/thành</option>
                             </select>
                             <input type="hidden" name="tinhThanh" id="tenTinhHidden">
+
+
+
+
+
+
+
+
+
+
+
+
                         </div>
                     </div>
 
@@ -396,15 +405,20 @@ if (isset($_POST['xoaanh'])) {
                             <h4>Quận/ huyện <span>*</span></h4>
                         </div>
                         <div class="col-xs-12">
+
                             <select id="quan" name="quanHuyen">
-                                <option value=""><?php echo htmlspecialchars($room['QuanHuyen']); ?></option>
+                                <option value="">Chọn quận/huyện</option>
                             </select>
+
+
+
+
                         </div>
                     </div>
 
                     <script>
-                        const initialTinhName = "<?php echo htmlspecialchars($room['TinhThanh'] ?? ''); ?>";
-                        const initialQuanName = "<?php echo htmlspecialchars($room['QuanHuyen'] ?? ''); ?>";
+                        const initialTinhName = "<?php echo htmlspecialchars($room['tinhThanh'] ?? ''); ?>";
+                        const initialQuanName = "<?php echo htmlspecialchars($room['quanHuyen'] ?? ''); ?>";
                     </script>
                     <script type="text/javascript" src="address.js"></script>
 
@@ -414,8 +428,8 @@ if (isset($_POST['xoaanh'])) {
                             </h4>
                         </div>
                         <div class="col-xs-12">
-                            <input id="input_address" type="text" name="DiaChi" placeholder="Địa chỉ căn phòng"
-                                title="Địa chỉ căn phòng" value="<?php echo htmlspecialchars($room['DiaChi']); ?>">
+                            <input id="input_address" type="text" name="diaChi" placeholder="Địa chỉ căn phòng"
+                                title="Địa chỉ căn phòng" value="<?php echo htmlspecialchars($room['diaChi']); ?>">
                         </div>
                     </div>
 
@@ -425,31 +439,30 @@ if (isset($_POST['xoaanh'])) {
                             <h4>Thông Tin Liên Hệ <span>*</span> <span class="error_input"
                                     id="error_input_contact_info"></span></h4>
                         </div>
-                        <div class="col-xs-12">
-                            <div class="col-xs-6 text-left">
-                                <div class="col-xs-12 ">
-                                    <h4>Tên chủ trọ <span>*</span> <span class="error_input"
-                                            id="error_input_contact_info"></span></h4>
-                                </div>
-                                <div class="col-xs-12 text-left">
-                                    <input id="input_contact_name" type="text" name="TenChuTro"
-                                        placeholder="Tên liên hệ" title="Tên liên hệ"
-                                        value="<?php echo htmlspecialchars($room['TenChuTro']); ?>">
-                                </div>
+                        <!-- <div class="col-xs-12"> -->
+                        <div class="col-xs-6 text-left">
+                            <div class="col-xs-12 ">
+                                <h4>Tên chủ trọ <span>*</span> <span class="error_input"
+                                        id="error_input_contact_info"></span></h4>
                             </div>
-
-                            <div class="col-xs-6 ">
-                                <div class="col-xs-12">
-                                    <h4>Số điện thoại <span>*</span> <span class="error_input"
-                                            id="error_input_contact_info"></span></h4>
-                                </div>
-                                <div class="col-xs-12 text-right ">
-                                    <input id="input_contact_phone" type="text" name="Sdt" placeholder="Số điện thoại"
-                                        title="Số điện thoại" value="<?php echo htmlspecialchars($room['Sdt']); ?>">
-                                </div>
-
+                            <div class="col-xs-12 text-left">
+                                <input id="input_contact_name" type="text" name="chuTro" placeholder="Tên liên hệ"
+                                    title="Tên liên hệ" value="<?php echo htmlspecialchars($room['chuTro']); ?>">
                             </div>
                         </div>
+
+                        <div class="col-xs-6 ">
+                            <div class="col-xs-12">
+                                <h4>Số điện thoại <span>*</span> <span class="error_input"
+                                        id="error_input_contact_info"></span></h4>
+                            </div>
+                            <div class="col-xs-12 text-right ">
+                                <input id="input_contact_phone" type="text" name="sdt" placeholder="Số điện thoại"
+                                    title="Số điện thoại" value="<?php echo htmlspecialchars($room['sdt']); ?>">
+                            </div>
+
+                        </div>
+                        <!-- </div> -->
                     </div>
                     <div class=" col-xs-12 " style="margin-block-start:30px;">
                         <div class="col-lg-6 col-xs-12  text-left">
@@ -475,7 +488,7 @@ if (isset($_POST['xoaanh'])) {
                     <?php
                     $sql2 = 'SELECT DuongDan FROM hinh_anh_phong_tro WHERE IDPhongTro = ?';
                     $stmt2 = $conn->prepare($sql2);
-                    $stmt2->bind_param('i', $IDPhongTro);
+                    $stmt2->bind_param('i', $id_tro);
                     $stmt2->execute();
                     $result2 = $stmt2->get_result();
 
@@ -525,14 +538,18 @@ if (isset($_POST['xoaanh'])) {
                     <span class="sr-only">Next</span>
                 </a>
             </div>
-            <form method="POST" action="post_mana_edit.php?id=<?php echo $IDPhongTro; ?>" enctype="multipart/form-data">
+            <form method="POST" action="post_mana_edit.php?id=<?php echo $id_tro; ?>" enctype="multipart/form-data">
                 <div class="row" style="margin-top: 20px;">
                     <div class="form-group col-xs-12">
                         <label>Thêm ảnh mới:</label>
 
 
-                        <input type="file" class="form-control" name="image" id="upload_images"
+                        <!-- <input type="file" class="form-control" name="image" id="upload_images"
+                            onchange="previewImages()" multiple="multiple"> -->
+
+                        <input type="file" class="form-control" name="image[]" id="upload_images"
                             onchange="previewImages()" multiple="multiple">
+
 
                         <div class="col-xs-12">
                             <div class="preview_images  col-xs-12" id="preview_images"

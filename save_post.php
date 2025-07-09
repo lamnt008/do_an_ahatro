@@ -37,7 +37,7 @@ try {
         sendResponse(['success' => false, 'message' => 'Hành động không hợp lệ']);
     }
 
-    $check_post = mysqli_query($conn, "SELECT 1 FROM phong_tro WHERE IDPhongTro = $post_id");
+    $check_post = mysqli_query($conn, "SELECT 1 FROM phong_tro WHERE id = $post_id");
     if (!$check_post || mysqli_num_rows($check_post) === 0) {
         sendResponse(['success' => false, 'message' => 'Bài đăng không tồn tại']);
     }

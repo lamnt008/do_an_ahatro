@@ -3,10 +3,10 @@ include 'config.php';
 ?>
 
 <div class="room-item">
-    <a href="room_detail.php?id=<?php echo $row['IDPhongTro']; ?>">
+    <a href="room_detail.php?id=<?php echo $row['id']; ?>">
 
         <?php
-        $sql_select_image = 'SELECT DuongDan FROM hinh_anh_phong_tro WHERE IDPhongTro=' . $row['IDPhongTro'] . ' LIMIT 1';
+        $sql_select_image = 'SELECT DuongDan FROM hinh_anh_phong_tro WHERE IDPhongTro=' . $row['id'] . ' LIMIT 1';
         $result_img = mysqli_query($conn, $sql_select_image);
         if ($row_img = mysqli_fetch_assoc($result_img)) {
             echo '<img src="' . $row_img['DuongDan'] . '" alt="Hình phòng">';
@@ -18,20 +18,20 @@ include 'config.php';
 
     <div class="room-info">
         <h3>
-            <a href="room_detail.php?id=<?php echo $row['IDPhongTro']; ?>">
-                <?php echo $row['TieuDe']; ?>
+            <a href="room_detail.php?id=<?php echo $row['id']; ?>">
+                <?php echo $row['tieuDe']; ?>
             </a>
         </h3>
 
-        <p><strong>Vị trí:</strong> <?php echo $row['QuanHuyen'] . ", " . $row['TinhThanh']; ?></p>
+        <p><strong>Vị trí:</strong> <?php echo $row['quanHuyen'] . ", " . $row['tinhThanh']; ?></p>
         <p style="color: red; font-weight: bold;"><strong>Giá thuê:</strong>
-            <?php echo number_format($row['GiaChoThue'], 0, ',', '.'); ?> VNĐ</p>
-        <p><strong>Diện tích:</strong> <?php echo $row['DienTich']; ?> m<sup>2</sup></p>
+            <?php echo number_format($row['giaThue'], 0, ',', '.'); ?> VNĐ</p>
+        <p><strong>Diện tích:</strong> <?php echo $row['dienTich']; ?> m<sup>2</sup></p>
 
         <div class="user-info">
             <?php
             $now = time();
-            $time_posted = strtotime($row['ThoiGianDang']);
+            $time_posted = strtotime($row['thoiGianDang']);
             $time_diff = $now - $time_posted;
 
             if ($time_diff < 60) {
@@ -52,7 +52,7 @@ include 'config.php';
             ?>
             <img src="img/user_icon.png" alt="">
             <div>
-                <p style="font-weight: bold;"><?php echo $row['user_name']; ?></p>
+                <p style="font-weight: bold;"><?php echo $row['username']; ?></p>
                 <p style="color: gray;"><?php echo $time_ago; ?></p>
             </div>
 
@@ -60,16 +60,16 @@ include 'config.php';
             $is_saved = false;
             if (isset($_SESSION['user_id'])) {
                 $user_id = $_SESSION['user_id'];
-                $check_saved = mysqli_query($conn, "SELECT id FROM saved_posts WHERE user_id = $user_id AND post_id = " . $row['IDPhongTro']);
+                $check_saved = mysqli_query($conn, "SELECT id FROM saved_posts WHERE user_id = $user_id AND post_id = " . $row['id']);
                 $is_saved = mysqli_num_rows($check_saved) > 0;
             } else {
                 $session_id = session_id();
-                $check_saved = mysqli_query($conn, "SELECT id FROM saved_posts WHERE session_id = '$session_id' AND post_id = " . $row['IDPhongTro']);
+                $check_saved = mysqli_query($conn, "SELECT id FROM saved_posts WHERE session_id = '$session_id' AND post_id = " . $row['id']);
                 $is_saved = mysqli_num_rows($check_saved) > 0;
             }
             ?>
             <button class="save-post-btn <?php echo $is_saved ? 'saved' : ''; ?>"
-                data-post-id="<?php echo (int) $row['IDPhongTro']; ?>">
+                data-post-id="<?php echo (int) $row['id']; ?>">
                 <?php echo $is_saved ? '<i class="fas fa-bookmark"></i> Đã lưu' : '<i class="far fa-bookmark"></i> Lưu bài'; ?>
             </button>
         </div>
@@ -131,7 +131,7 @@ include 'config.php';
                     } catch (e) {
                         alert('Lỗi kết nối với server');
                     }
-                    console.error('AJAX Error:', xhr.status, xhr.responseText);
+                    console.error('AJAX Error:', xhr.trangThai, xhr.responseText);
                 },
                 complete: function () {
                     button.prop('disabled', false);

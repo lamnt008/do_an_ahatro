@@ -7,7 +7,7 @@ if (!isset($_SESSION['user_id'])) {
         $user_id = $_SESSION['user_id'];
         foreach ($_SESSION['saved_posts'] as $post_id) {
 
-            $check_sql = "SELECT * FROM tin_luu WHERE idUser = ? AND IDPhongTro = ?";
+            $check_sql = "SELECT * FROM tin_luu WHERE idUser = ? AND id = ?";
             $stmt_check = mysqli_prepare($conn, $check_sql);
             mysqli_stmt_bind_param($stmt_check, "ii", $user_id, $post_id);
             mysqli_stmt_execute($stmt_check);
@@ -15,7 +15,7 @@ if (!isset($_SESSION['user_id'])) {
 
             if (mysqli_num_rows($check_result) == 0) {
 
-                $insert_sql = "INSERT INTO tin_luu (idUser, IDPhongTro) VALUES (?, ?)";
+                $insert_sql = "INSERT INTO tin_luu (idUser, id) VALUES (?, ?)";
                 $stmt_insert = mysqli_prepare($conn, $insert_sql);
                 mysqli_stmt_bind_param($stmt_insert, "ii", $user_id, $post_id);
                 mysqli_stmt_execute($stmt_insert);

@@ -19,12 +19,12 @@
         $params = [];
 
         if (!empty($_GET['tinh'])) {
-            $where[] = "TinhThanh = ?";
+            $where[] = "tinhThanh = ?";
             $params[] = $_GET['tinh'];
         }
 
         if (!empty($_GET['quan'])) {
-            $where[] = "QuanHuyen = ?";
+            $where[] = "quanHuyen = ?";
             $params[] = $_GET['quan'];
         }
 
@@ -36,64 +36,64 @@
         if (!empty($_GET['gia'])) {
             switch ($_GET['gia']) {
                 case 'duoi-1-trieu':
-                    $where[] = "GiaChoThue < ?";
+                    $where[] = "giaThue < ?";
                     $params[] = 1000000;
                     break;
                 case '1-2-trieu':
-                    $where[] = "GiaChoThue >= ? AND GiaChoThue <= ?";
+                    $where[] = "giaThue >= ? AND giaThue <= ?";
                     array_push($params, 1000000, 2000000);
                     break;
                 case '2-3-trieu':
-                    $where[] = "GiaChoThue >= ? AND GiaChoThue <= ?";
+                    $where[] = "giaThue >= ? AND giaThue <= ?";
                     array_push($params, 2000000, 3000000);
                     break;
                 case '3-5-trieu':
-                    $where[] = "GiaChoThue >= ? AND GiaChoThue <= ?";
+                    $where[] = "giaThue >= ? AND giaThue <= ?";
                     array_push($params, 3000000, 5000000);
                     break;
                 case '5-7-trieu':
-                    $where[] = "GiaChoThue >= ? AND GiaChoThue <= ?";
+                    $where[] = "giaThue >= ? AND giaThue <= ?";
                     array_push($params, 5000000, 7000000);
                     break;
                 case '7-10-trieu':
-                    $where[] = "GiaChoThue >= ? AND GiaChoThue <= ?";
+                    $where[] = "giaThue >= ? AND giaThue <= ?";
                     array_push($params, 7000000, 10000000);
                     break;
                 case '10-15-trieu':
-                    $where[] = "GiaChoThue >= ? AND GiaChoThue <= ?";
+                    $where[] = "giaThue >= ? AND giaThue <= ?";
                     array_push($params, 10000000, 15000000);
                     break;
                 case 'tren-15-trieu':
-                    $where[] = "GiaChoThue > ?";
+                    $where[] = "giaThue > ?";
                     $params[] = 15000000;
                     break;
             }
         }
 
-        if (!empty($_GET['dientich'])) {
-            switch ($_GET['dientich']) {
+        if (!empty($_GET['dienTich'])) {
+            switch ($_GET['dienTich']) {
                 case 'duoi-20':
-                    $where[] = "DienTich < ?";
+                    $where[] = "dienTich < ?";
                     $params[] = 20;
                     break;
                 case '20-30':
-                    $where[] = "DienTich >= ? AND DienTich <= ?";
+                    $where[] = "dienTich >= ? AND dienTich <= ?";
                     array_push($params, 20, 30);
                     break;
                 case '30-50':
-                    $where[] = "DienTich >= ? AND DienTich <= ?";
+                    $where[] = "dienTich >= ? AND dienTich <= ?";
                     array_push($params, 30, 50);
                     break;
                 case '50-70':
-                    $where[] = "DienTich >= ? AND DienTich <= ?";
+                    $where[] = "dienTich >= ? AND dienTich <= ?";
                     array_push($params, 50, 70);
                     break;
                 case '70-90':
-                    $where[] = "DienTich >= ? AND DienTich <= ?";
+                    $where[] = "dienTich >= ? AND dienTich <= ?";
                     array_push($params, 70, 90);
                     break;
                 case 'tren-90':
-                    $where[] = "DienTich > ?";
+                    $where[] = "dienTich > ?";
                     $params[] = 90;
                     break;
             }

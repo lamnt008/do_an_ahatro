@@ -1,7 +1,7 @@
 <?php
 include "config.php";
 session_start();
-if (!isset($_SESSION['user_name']) || $_SESSION['user_role'] !== 'user') {
+if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'user') {
 
 	header("Location: login.php");
 	exit();
@@ -232,7 +232,7 @@ if (!isset($_SESSION['user_name']) || $_SESSION['user_role'] !== 'user') {
 								<h4>Tên chủ trọ</h4>
 							</div>
 							<div class="col-xs-12">
-								<input type="text" name="tenChuTro" maxlength="40" title="Tên chủ trọ">
+								<input type="text" name="chuTro" maxlength="40" title="Tên chủ trọ">
 							</div>
 						</div>
 

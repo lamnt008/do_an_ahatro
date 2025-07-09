@@ -20,12 +20,12 @@ include 'config.php';
     <div class="filter-section">
         <h3>Xem theo diện tích</h3>
         <div class="filter-list">
-            <a href="#" data-param="dientich" data-value="duoi-20">› Dưới 20 m²</a>
-            <a href="#" data-param="dientich" data-value="20-30">› Từ 20 - 30 m²</a>
-            <a href="#" data-param="dientich" data-value="30-50">› Từ 30 - 50 m²</a>
-            <a href="#" data-param="dientich" data-value="50-70">› Từ 50 - 70 m²</a>
-            <a href="#" data-param="dientich" data-value="70-90">› Từ 70 - 90 m²</a>
-            <a href="#" data-param="dientich" data-value="trem-90">› Trên 90 m²</a>
+            <a href="#" data-param="dienTich" data-value="duoi-20">› Dưới 20 m²</a>
+            <a href="#" data-param="dienTich" data-value="20-30">› Từ 20 - 30 m²</a>
+            <a href="#" data-param="dienTich" data-value="30-50">› Từ 30 - 50 m²</a>
+            <a href="#" data-param="dienTich" data-value="50-70">› Từ 50 - 70 m²</a>
+            <a href="#" data-param="dienTich" data-value="70-90">› Từ 70 - 90 m²</a>
+            <a href="#" data-param="dienTich" data-value="trem-90">› Trên 90 m²</a>
         </div>
     </div>
 </div>

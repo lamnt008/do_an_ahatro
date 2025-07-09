@@ -15,8 +15,8 @@ $user_id = $_GET['id'] ?? 0;
 
 if ($action && $user_id) {
     switch ($action) {
-        // case 'toggle_status':
-        //     $stmt = $conn->prepare("UPDATE users SET status = IF(status='active', 'banned', 'active') WHERE id = ?");
+        // case 'toggle_trangThai':
+        //     $stmt = $conn->prepare("UPDATE users SET trangThai = IF(trangThai='active', 'banned', 'active') WHERE id = ?");
         //     $stmt->bind_param("i", $user_id);
         //     $stmt->execute();
         //     $_SESSION['message'] = "Đã thay đổi trạng thái người dùng";

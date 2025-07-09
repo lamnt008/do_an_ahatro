@@ -5,64 +5,64 @@
     $quan = isset($_GET['quan']) ? mysqli_real_escape_string($conn, $_GET['quan']) : '';
     $idLoaiPhong = isset($_GET['id']) ? intval($_GET['id']) : 0;
     $gia = $_GET['gia'] ?? '';
-    $dientich = $_GET['dientich'] ?? '';
+    $dienTich = $_GET['dienTich'] ?? '';
     $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
 
-    $where = ["pt.status = 'approved'"];
+    $where = ["pt.trangThai = 'duyet'"];
 
     if (!empty($tinh))
-        $where[] = "pt.TinhThanh = '$tinh'";
+        $where[] = "pt.tinhThanh = '$tinh'";
     if (!empty($quan))
-        $where[] = "pt.QuanHuyen = '$quan'";
+        $where[] = "pt.quanHuyen = '$quan'";
     if ($idLoaiPhong > 0)
         $where[] = "pt.idLoaiPhong = $idLoaiPhong";
 
     // Lọc giá
     switch ($gia) {
         case 'duoi-1-trieu':
-            $where[] = "pt.GiaChoThue < 1000000";
+            $where[] = "pt.giaThue < 1000000";
             break;
         case '1-2-trieu':
-            $where[] = "pt.GiaChoThue >= 1000000 AND pt.GiaChoThue <= 2000000";
+            $where[] = "pt.giaThue >= 1000000 AND pt.giaThue <= 2000000";
             break;
         case '2-3-trieu':
-            $where[] = "pt.GiaChoThue >= 2000000 AND pt.GiaChoThue <= 3000000";
+            $where[] = "pt.giaThue >= 2000000 AND pt.giaThue <= 3000000";
             break;
         case '3-5-trieu':
-            $where[] = "pt.GiaChoThue >= 3000000 AND pt.GiaChoThue <= 5000000";
+            $where[] = "pt.giaThue >= 3000000 AND pt.giaThue <= 5000000";
             break;
         case '5-7-trieu':
-            $where[] = "pt.GiaChoThue >= 5000000 AND pt.GiaChoThue <= 7000000";
+            $where[] = "pt.giaThue >= 5000000 AND pt.giaThue <= 7000000";
             break;
         case '7-10-trieu':
-            $where[] = "pt.GiaChoThue >= 7000000 AND pt.GiaChoThue <= 10000000";
+            $where[] = "pt.giaThue >= 7000000 AND pt.giaThue <= 10000000";
             break;
         case '10-15-trieu':
-            $where[] = "pt.GiaChoThue >= 10000000 AND pt.GiaChoThue <= 15000000";
+            $where[] = "pt.giaThue >= 10000000 AND pt.giaThue <= 15000000";
             break;
         case 'tren-15-trieu':
-            $where[] = "pt.GiaChoThue > 15000000";
+            $where[] = "pt.giaThue > 15000000";
             break;
     }
 
-    switch ($dientich) {
+    switch ($dienTich) {
         case 'duoi-20':
-            $where[] = "pt.DienTich < 20";
+            $where[] = "pt.dienTich < 20";
             break;
         case '20-30':
-            $where[] = "pt.DienTich >= 20 AND pt.DienTich <= 30";
+            $where[] = "pt.dienTich >= 20 AND pt.dienTich <= 30";
             break;
         case '30-50':
-            $where[] = "pt.DienTich >= 30 AND pt.DienTich <= 50";
+            $where[] = "pt.dienTich >= 30 AND pt.dienTich <= 50";
             break;
         case '50-70':
-            $where[] = "pt.DienTich >= 50 AND pt.DienTich <= 70";
+            $where[] = "pt.dienTich >= 50 AND pt.dienTich <= 70";
             break;
         case '70-90':
-            $where[] = "pt.DienTich >= 70 AND pt.DienTich <= 90";
+            $where[] = "pt.dienTich >= 70 AND pt.dienTich <= 90";
             break;
         case 'tren-90':
-            $where[] = "pt.DienTich > 90";
+            $where[] = "pt.dienTich > 90";
             break;
     }
 
@@ -75,13 +75,17 @@
     $total_rows = mysqli_fetch_assoc(mysqli_query($conn, $count_sql))['total'];
     $total_pages = ceil($total_rows / $limit);
 
-    $sql = "SELECT pt.IDPhongTro, pt.QuanHuyen, pt.TinhThanh, pt.TieuDe, pt.GiaChoThue, pt.DienTich,
-        pt.user_name, pt.ThoiGianDang, lp.loaiPhong
+
+
+    $sql = "SELECT pt.id, pt.quanHuyen, pt.tinhThanh, pt.tieuDe, pt.giaThue, pt.dienTich,
+        pt.userID, pt.thoiGianDang, lp.loaiPhong, u.username
         FROM phong_tro pt
         JOIN loai_phong lp ON pt.idLoaiPhong = lp.idLoaiPhong
+        JOIN users u ON pt.userID = u.id
         $where_sql
-        ORDER BY pt.ThoiGianDang DESC
+        ORDER BY pt.thoiGianDang DESC
         LIMIT $limit OFFSET $offset";
+
 
     $result = mysqli_query($conn, $sql);
 
@@ -139,7 +143,7 @@
                 },
                 success: function (response) {
                     var data = JSON.parse(response);
-                    if (data.status === 'success') {
+                    if (data.trangThai === 'success') {
                         if (data.action === 'saved') {
                             button.html('<i class="fas fa-bookmark" style="color: blue;"></i> Bỏ lưu');
                         } else if (data.action === 'unsaved') {

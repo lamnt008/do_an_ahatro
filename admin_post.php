@@ -83,27 +83,29 @@ include 'config.php';
             <div style="height: 20px"></div>
 
             <?php
-            $username = $_SESSION['user_name'];
+            // $username = $_SESSION['user_name'];
+            $userID = $_SESSION['user_id'];
             $search_term = isset($_GET['search']) ? trim($_GET['search']) : '';
-            $sql1 = 'SELECT * FROM phong_tro WHERE user_name = ?';
+            // $sql1 = 'SELECT * FROM phong_tro WHERE user_name = ?';
+            $sql1 = 'SELECT * FROM phong_tro WHERE userID = ?';
             $params = array($username);
             $types = 's';
 
             if (!empty($search_term)) {
                 if (is_numeric($search_term)) {
 
-                    $sql1 .= ' AND IDPhongTro = ?';
+                    $sql1 .= ' AND id = ?';
                     $params[] = (int) $search_term;
                     $types .= 'i';
                 } else {
 
-                    $sql1 .= ' AND TieuDe LIKE ?';
+                    $sql1 .= ' AND tieuDe LIKE ?';
                     $params[] = '%' . $search_term . '%';
                     $types .= 's';
                 }
             }
 
-            $sql1 .= ' ORDER BY ThoiGianDang DESC';
+            $sql1 .= ' ORDER BY thoiGianDang DESC';
 
             $stmt1 = $conn->prepare($sql1);
 
@@ -123,12 +125,12 @@ include 'config.php';
                             <div class="room-manage" style="padding-left: 15px;">
 
                                 <?php
-                                echo "<div class='status'>";
-                                if ($row['status'] == 'pending') {
+                                echo "<div class='trangThai'>";
+                                if ($row['trangThai'] == 'cho_duyet') {
                                     echo "<span class='label label-warning'>Đang chờ duyệt</span>";
-                                } elseif ($row['status'] == 'approved') {
+                                } elseif ($row['trangThai'] == 'duyet') {
                                     echo "<span class='label label-success'>Đã duyệt</span>";
-                                } elseif ($row['status'] == 'rejected') {
+                                } elseif ($row['trangThai'] == 'tu_choi') {
                                     echo "<span class='label label-danger'>Bị từ chối</span>";
                                 }
                                 echo "</div>";

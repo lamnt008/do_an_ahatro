@@ -8,21 +8,22 @@ if (isset($_GET['id'])) {
 	$sql = "SELECT pt.*, lp.loaiPhong 
 	        FROM phong_tro pt
 	        JOIN loai_phong lp ON pt.idLoaiPhong = lp.idLoaiPhong
-	       WHERE pt.IDPhongTro = $idPhong";
-	if ($_SESSION['user_role'] == 'user') {
-		$sql .= " AND status = 'approved'";
+	       WHERE pt.id = $idPhong";
+	if (isset($_SESSION['user_role']) && $_SESSION['user_role'] == 'user') {
+		$sql .= " AND trangThai = 'duyet'";
 	}
+
 	$result = mysqli_query($conn, $sql);
 	if ($result->num_rows == 0) {
-		echo "<div class='alert alert-warning'>Tin này không tồn tại hoặc chưa được duyệt</div>";
+		echo "<div class='alert alert-warning' style='margin-top: 130px; margin-bottom: 180px; '>Tin này không tồn tại hoặc chưa được duyệt</div>";
 		include('footer.php');
 		exit();
 	}
 
 	if (mysqli_num_rows($result) > 0) {
 		$phong = mysqli_fetch_assoc($result);
-
 		$sql_img = "SELECT DuongDan FROM hinh_anh_phong_tro WHERE IDPhongTro = $idPhong";
+
 		$result_img = mysqli_query($conn, $sql_img);
 	} else {
 		echo "Không tìm thấy phòng trọ.";
@@ -39,7 +40,7 @@ if (isset($_GET['id'])) {
 
 <head>
 	<meta charset="UTF-8">
-	<title><?php echo htmlspecialchars($phong['TieuDe']); ?></title>
+	<title><?php echo htmlspecialchars($phong['tieuDe']); ?></title>
 	<style>
 		body {
 			font-family: "Segoe UI", sans-serif;
@@ -145,7 +146,7 @@ if (isset($_GET['id'])) {
 <body>
 
 	<div class="detail-container">
-		<h1><?php echo htmlspecialchars($phong['TieuDe']); ?></h1>
+		<h1><?php echo htmlspecialchars($phong['tieuDe']); ?></h1>
 
 		<div class="images">
 			<?php while ($img = mysqli_fetch_assoc($result_img)) {
@@ -155,23 +156,25 @@ if (isset($_GET['id'])) {
 
 		<div class="info-block">
 			<h2>Thông tin chi tiết</h2>
-			<p><strong>Mã tin:</strong><?php echo $phong['IDPhongTro']; ?></p>
+			<p><strong>Mã tin: </strong><?php echo $phong['id']; ?></p>
 			<p><strong>Loại phòng:</strong> <?php echo $phong['loaiPhong']; ?></p>
 			<p><strong>Địa chỉ:</strong>
-				<?php echo $phong['DiaChi'] . ', ' . $phong['QuanHuyen'] . ', ' . $phong['TinhThanh']; ?></p>
-			<p><strong>Giá thuê:</strong> <?php echo number_format($phong['GiaChoThue'], 0, ',', '.') . ' VNĐ'; ?></p>
-			<p><strong>Diện tích:</strong> <?php echo $phong['DienTich']; ?> m²</p>
-			<p><strong>Tiện ích:</strong> <?php echo nl2br(htmlspecialchars($phong['TienIch'])); ?></p>
-			<p><strong>Vệ sinh:</strong> <?php echo $phong['KieuVeSinh']; ?></p>
-			<p><strong>Đối tượng thuê:</strong> <?php echo $phong['DoiTuong']; ?></p>
-			<p><strong>Mô tả:</strong> <?php echo nl2br(htmlspecialchars($phong['MoTa'])); ?></p>
+				<?php echo $phong['diaChi'] . ', ' . $phong['quanHuyen'] . ', ' . $phong['tinhThanh']; ?></p>
+			<p><strong>Giá thuê:</strong> <?php echo number_format($phong['giaThue'], 0, ',', '.') . ' VNĐ'; ?></p>
+			<p><strong>Diện tích:</strong> <?php echo $phong['dienTich']; ?> m²</p>
+			<p><strong>Tiện ích:</strong> <?php echo nl2br(htmlspecialchars($phong['tienIch'])); ?></p>
+			<p><strong>Vệ sinh:</strong> <?php echo $phong['veSinh']; ?></p>
+			<p><strong>Đối tượng thuê:</strong> <?php echo $phong['doiTuong']; ?></p>
+			<p><strong>Mô tả:</strong> <?php echo nl2br(htmlspecialchars($phong['moTa'])); ?></p>
+			<p><strong>Giá điện:</strong> <?php echo htmlspecialchars($phong['dien']); ?></p>
+			<p><strong>Giá nước:</strong> <?php echo htmlspecialchars($phong['nuoc']); ?></p>
 		</div>
 
 		<div class="contact-box">
 			<h3>Liên hệ chủ trọ</h3>
-			<p><strong>Chủ trọ:</strong> <?php echo htmlspecialchars($phong['TenChuTro']); ?></p>
+			<p><strong>Chủ trọ:</strong> <?php echo htmlspecialchars($phong['chuTro']); ?></p>
 			<p><strong>Số điện thoại:</strong> <a
-					href="tel:<?php echo $phong['Sdt']; ?>"><?php echo $phong['Sdt']; ?></a></p>
+					href="tel:<?php echo $phong['sdt']; ?>"><?php echo $phong['sdt']; ?></a></p>
 		</div>
 	</div>
 

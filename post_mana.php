@@ -46,7 +46,7 @@ include 'config.php';
             margin-bottom: 20px;
         }
 
-        .status-label {
+        .trangThai-label {
             margin-left: 10px;
             font-size: 0.9em;
         }
@@ -99,58 +99,63 @@ include 'config.php';
                         href="?tab=all<?php echo isset($_GET['search']) ? '&search=' . urlencode($_GET['search']) : ''; ?>">Tất
                         cả tin đăng</a>
                 </li>
-                <li class="<?php echo (isset($_GET['tab']) && $_GET['tab'] == 'pending') ? 'active' : ''; ?>">
+                <li class="<?php echo (isset($_GET['tab']) && $_GET['tab'] == 'cho_duyet') ? 'active' : ''; ?>">
                     <a
-                        href="?tab=pending<?php echo isset($_GET['search']) ? '&search=' . urlencode($_GET['search']) : ''; ?>">Chờ
+                        href="?tab=cho_duyet<?php echo isset($_GET['search']) ? '&search=' . urlencode($_GET['search']) : ''; ?>">Chờ
                         duyệt</a>
                 </li>
-                <li class="<?php echo (isset($_GET['tab']) && $_GET['tab'] == 'approved') ? 'active' : ''; ?>">
+                <li class="<?php echo (isset($_GET['tab']) && $_GET['tab'] == 'duyet') ? 'active' : ''; ?>">
                     <a
-                        href="?tab=approved<?php echo isset($_GET['search']) ? '&search=' . urlencode($_GET['search']) : ''; ?>">Đã
+                        href="?tab=duyet<?php echo isset($_GET['search']) ? '&search=' . urlencode($_GET['search']) : ''; ?>">Đã
                         duyệt</a>
                 </li>
-                <li class="<?php echo (isset($_GET['tab']) && $_GET['tab'] == 'rejected') ? 'active' : ''; ?>">
+                <li class="<?php echo (isset($_GET['tab']) && $_GET['tab'] == 'tu_choi') ? 'active' : ''; ?>">
                     <a
-                        href="?tab=rejected<?php echo isset($_GET['search']) ? '&search=' . urlencode($_GET['search']) : ''; ?>">Bị
+                        href="?tab=tu_choi<?php echo isset($_GET['search']) ? '&search=' . urlencode($_GET['search']) : ''; ?>">Bị
                         từ chối</a>
                 </li>
             </ul>
 
             <?php
 
-            $username = isset($_SESSION['user_name']) ? $_SESSION['user_name'] : null;
+            $userID = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
             $search_term = isset($_GET['search']) ? trim($_GET['search']) : '';
             $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'all';
 
-            $sql1 = 'SELECT * FROM phong_tro WHERE user_name = ?';
-            $params = array($username);
-            $types = 's';
+            // $sql1 = 'SELECT * FROM phong_tro WHERE userID = ?';
+            $sql1 = 'SELECT pt.*, u.username 
+         FROM phong_tro pt 
+         JOIN users u ON pt.userID = u.id 
+         WHERE pt.userID = ?';
+
+            $params = array($userID);
+            $types = 'i';
 
             switch ($current_tab) {
-                case 'pending':
-                    $sql1 .= ' AND status = "pending"';
+                case 'cho_duyet':
+                    $sql1 .= ' AND trangThai = "cho_duyet"';
                     break;
-                case 'approved':
-                    $sql1 .= ' AND status = "approved"';
+                case 'duyet':
+                    $sql1 .= ' AND trangThai = "duyet"';
                     break;
-                case 'rejected':
-                    $sql1 .= ' AND status = "rejected"';
+                case 'tu_choi':
+                    $sql1 .= ' AND trangThai = "tu_choi"';
                     break;
             }
 
             if (!empty($search_term)) {
                 if (is_numeric($search_term)) {
-                    $sql1 .= ' AND IDPhongTro = ?';
+                    $sql1 .= ' AND pt.id = ?';
                     $params[] = (int) $search_term;
                     $types .= 'i';
                 } else {
-                    $sql1 .= ' AND TieuDe LIKE ?';
+                    $sql1 .= ' AND tieuDe LIKE ?';
                     $params[] = '%' . $search_term . '%';
                     $types .= 's';
                 }
             }
 
-            $sql1 .= ' ORDER BY ThoiGianDang DESC';
+            $sql1 .= ' ORDER BY thoiGianDang DESC';
 
             $stmt1 = $conn->prepare($sql1);
 
@@ -167,7 +172,7 @@ include 'config.php';
                                 <?php include "room.php"; ?>
                             </div>
                             <div class="room-manage" style="padding-left: 15px;">
-                                <a href="post_mana_edit.php?id=<?php echo $row['IDPhongTro']; ?>" class="btn btn-primary"
+                                <a href="post_mana_edit.php?id=<?php echo $row['id']; ?>" class="btn btn-primary"
                                     style="background-color: rgb(175, 0, 0);">
                                     Quản lý chi tiết
                                 </a>
@@ -183,13 +188,13 @@ include 'config.php';
                     }
                     echo " trong mục <strong>";
                     switch ($current_tab) {
-                        case 'pending':
+                        case 'cho_duyet':
                             echo "Chờ duyệt";
                             break;
-                        case 'approved':
+                        case 'duyet':
                             echo "Đã duyệt";
                             break;
-                        case 'rejected':
+                        case 'tu_choi':
                             echo "Bị từ chối";
                             break;
                         default:

@@ -14,10 +14,10 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
     $action = $_GET['action'];
 
     if ($action == 'approve') {
-        $sql = "UPDATE phong_tro SET status = 'approved' WHERE IDPhongTro = $post_id";
+        $sql = "UPDATE phong_tro SET trangThai = 'duyet' WHERE id = $post_id";
         $message = "Tin đã được duyệt thành công!";
     } elseif ($action == 'reject') {
-        $sql = "UPDATE phong_tro SET status = 'rejected' WHERE IDPhongTro = $post_id";
+        $sql = "UPDATE phong_tro SET trangThai = 'tu_choi' WHERE id = $post_id";
         $message = "Tin đã bị từ chối!";
     }
 
@@ -32,7 +32,19 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
 }
 
 // Lấy danh sách tin chờ duyệt
-$pending_posts = mysqli_query($conn, "SELECT * FROM phong_tro WHERE status = 'pending' ORDER BY ThoiGianDang DESC");
+// $cho_duyet_posts = mysqli_query($conn, "SELECT * FROM phong_tro 
+// WHERE trangThai = 'cho_duyet' ORDER BY thoiGianDang DESC");
+
+
+
+$cho_duyet_posts = mysqli_query($conn, "
+    SELECT pt.*, u.username
+    FROM phong_tro pt
+    JOIN users u ON pt.userID = u.id
+    WHERE pt.trangThai = 'cho_duyet'
+    ORDER BY pt.thoiGianDang DESC
+");
+
 ?>
 
 <!DOCTYPE html>
@@ -76,17 +88,17 @@ $pending_posts = mysqli_query($conn, "SELECT * FROM phong_tro WHERE status = 'pe
                     </tr>
                 </thead>
                 <tbody>
-                    <?php while ($post = mysqli_fetch_assoc($pending_posts)): ?>
+                    <?php while ($post = mysqli_fetch_assoc($cho_duyet_posts)): ?>
                         <tr>
-                            <td><?php echo $post['IDPhongTro']; ?></td>
-                            <td><?php echo $post['TieuDe']; ?></td>
-                            <td><?php echo $post['user_name']; ?></td>
-                            <td><?php echo $post['ThoiGianDang']; ?></td>
+                            <td><?php echo $post['id']; ?></td>
+                            <td><?php echo $post['tieuDe']; ?></td>
+                            <td><?php echo $post['username']; ?></td>
+                            <td><?php echo $post['thoiGianDang']; ?></td>
                             <td>
-                                <a href="room_detail.php?id=<?php echo $post['IDPhongTro']; ?>" class="btn btn-info">Xem</a>
-                                <a href="admin_approve.php?action=approve&id=<?php echo $post['IDPhongTro']; ?>"
+                                <a href="room_detail.php?id=<?php echo $post['id']; ?>" class="btn btn-info">Xem</a>
+                                <a href="admin_approve.php?action=approve&id=<?php echo $post['id']; ?>"
                                     class="btn btn-success">Duyệt</a>
-                                <a href="admin_approve.php?action=reject&id=<?php echo $post['IDPhongTro']; ?>"
+                                <a href="admin_approve.php?action=reject&id=<?php echo $post['id']; ?>"
                                     class="btn btn-danger">Từ chối</a>
                             </td>
                         </tr>

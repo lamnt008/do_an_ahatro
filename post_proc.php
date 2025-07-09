@@ -8,14 +8,14 @@ if (isset($_POST['DangTin'])) {
     date_default_timezone_set('Asia/Ho_Chi_Minh');
     $thoiGianDang = date('Y-m-d H:i:s');
 
-    $sql_insert_phong_tro = 'INSERT INTO phong_tro(user_name, DiaChi, QuanHuyen, TinhThanh, TenChuTro, Sdt, 
-    TieuDe, idLoaiPhong, KieuVeSinh, GiaChoThue, DienTich, GiaDien, GiaNuoc, DoiTuong, TienIch, MoTa, ThoiGianDang, status)
+    $sql_insert_phong_tro = 'INSERT INTO phong_tro(userID, diaChi, quanHuyen, tinhThanh, chuTro, sdt, 
+    tieuDe, idLoaiPhong, veSinh, giaThue, dienTich, dien, nuoc, doiTuong, tienIch, moTa, thoiGianDang, trangThai)
     VALUES (
-        "' . $_SESSION['user_name'] . '",
+        "' . $_SESSION['user_id'] . '",
         "' . $_POST['diaChi'] . '",
         "' . $_POST['quanHuyen'] . '",
         "' . $_POST['tinhThanh'] . '",
-        "' . $_POST['tenChuTro'] . '",
+        "' . $_POST['chuTro'] . '",
         "' . $_POST['sdt'] . '",
         "' . $_POST['tieuDe'] . '",
         "' . $_POST['idLoaiPhong'] . '",
@@ -28,7 +28,7 @@ if (isset($_POST['DangTin'])) {
         "' . $_POST['tienIch'] . '",
         "' . $_POST['moTa'] . '",
         "' . $thoiGianDang . '",
-        "pending"
+        "cho_duyet"
     )';
 
     if (mysqli_query($conn, $sql_insert_phong_tro)) {
