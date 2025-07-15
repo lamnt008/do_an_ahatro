@@ -31,7 +31,7 @@ include 'config.php';
         <div class="user-info">
             <?php
             $now = time();
-            $time_posted = strtotime($row['thoiGianDang']);
+            $time_posted = strtotime($row['ngayDuyet']);
             $time_diff = $now - $time_posted;
 
             if ($time_diff < 60) {

@@ -2,8 +2,6 @@ body {
     font-family: Arial, sans-serif;
 }
 
-/* header.css */
-
 .header {
     position: fixed;
     top: 0;
@@ -11,12 +9,8 @@ body {
     width: 100%;
     z-index: 999;
     background-color: white;
-
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-
 }
-
-
 
 .top-bar {
     display: flex;
@@ -76,7 +70,6 @@ body {
     transform: translateY(-1px);
 }
 
-/* Dropdown menu */
 .hdropdown {
     position: relative;
     cursor: pointer;
@@ -117,7 +110,6 @@ body {
 
 .hdropdown-menu a:hover {
     background-color: #f5f5f5;
-    /* color: orangered; */
     color: #ECAB53;
 }
 
@@ -125,10 +117,8 @@ body {
     display: block;
 }
 
-/* Dòng 2 - Category bar */
 .category-bar {
     background-color: #f8f9fa;
-
     padding: 10px 0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     border-top: 1px solid #eee;
@@ -165,8 +155,6 @@ body {
 }
 
 .category-menu a.active {
-    /* color: white;
-    background-color: orangered; */
     color: orangered;
     background-color: white;
 }
@@ -181,7 +169,6 @@ body {
     padding: 10px;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
     .top-bar {
         padding: 10px 15px;
@@ -201,23 +188,6 @@ body {
         font-size: 14px;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* banner.css */
 
 .banner {
     font-family: Arial, sans-serif;
@@ -252,7 +222,6 @@ body {
     top: 25px;
     left: 0;
     background: white;
-
     border: 1px solid #ccc;
     border-radius: 4px;
     z-index: 10;
@@ -280,8 +249,6 @@ body {
     gap: 8px;
     background: #fffaf5;
     padding: 15px;
-    /* border-radius: 8px;
-    box-shadow: 0 0 4px rgba(0, 0, 0, 0.1); */
 }
 
 .district {
@@ -297,7 +264,6 @@ body {
     display: flex;
     margin: 118px 0 20px 0;
 }
-
 
 /* siderbar */
 .main-layout {
@@ -379,19 +345,6 @@ body {
     font-size: 14px;
 }
 
-
-
-
-
-
-
-
-
-/* serch post */
-
-
-
-/* filter.php */
 .filter-box {
     background-color: #fff6f0;
     border-radius: 8px;
@@ -428,17 +381,6 @@ body {
     text-decoration: underline;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 .save-post-btn {
     transition: all 0.3s ease;
     cursor: pointer;
@@ -453,21 +395,6 @@ body {
     cursor: not-allowed;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* admin_post*/
 .status .label {
     font-size: 16px;
     padding: 8px 15px;
@@ -476,13 +403,6 @@ body {
     margin: 5px 0;
 }
 
-
-
-
-
-
-
-/* footer.css */
 .footer {
     margin: 0;
     background-color: black;
@@ -503,7 +423,6 @@ body {
     flex: 1;
 
 }
-
 
 .footer-section:last-child {
     padding-left: 350px;

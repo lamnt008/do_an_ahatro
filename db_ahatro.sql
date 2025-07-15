@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th7 09, 2025 lúc 05:10 AM
+-- Thời gian đã tạo: Th7 15, 2025 lúc 03:39 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Cơ sở dữ liệu: `db_tro`
+-- Cơ sở dữ liệu: `db_ahatro`
 --
 
 -- --------------------------------------------------------
@@ -175,7 +175,8 @@ INSERT INTO `hinh_anh_phong_tro` (`IDimage`, `IDPhongTro`, `DuongDan`) VALUES
 (145, 115, 'uploads/1751291733_1..jpg'),
 (150, 117, 'uploads/1751340257_1..jpg'),
 (151, 117, 'uploads/1751340257_1.1.jpg'),
-(152, 117, 'uploads/1751340257_1.2.jpg');
+(152, 117, 'uploads/1751340257_1.2.jpg'),
+(166, 62, 'uploads/1752031952_hinh-nen-cam-on_17.jpg');
 
 -- --------------------------------------------------------
 
@@ -224,33 +225,36 @@ CREATE TABLE `phong_tro` (
   `tienIch` varchar(50) DEFAULT NULL,
   `moTa` text DEFAULT NULL,
   `thoiGianDang` datetime DEFAULT NULL,
-  `trangThai` enum('cho_duyet','duyet','tu_choi') DEFAULT 'cho_duyet'
+  `trangThai` enum('cho_duyet','duyet','tu_choi') DEFAULT 'cho_duyet',
+  `loaiTin` enum('thuong','vip') DEFAULT 'thuong',
+  `ngayHienThi` int(11) DEFAULT 30,
+  `ngayDuyet` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `phong_tro`
 --
 
-INSERT INTO `phong_tro` (`id`, `userID`, `idLoaiPhong`, `tieuDe`, `diaChi`, `quanHuyen`, `tinhThanh`, `chuTro`, `sdt`, `giaThue`, `dienTich`, `dien`, `nuoc`, `veSinh`, `doiTuong`, `tienIch`, `moTa`, `thoiGianDang`, `trangThai`) VALUES
-(2, 4, 2, 'Phòng trọ mới xây full nội thất', '45 Nguyễn Văn Linh', 'Sơn Trà', '48', 'Trần An Nhã', '0912345678', 4500000, 30, '4000 đồng/ số', '30000 đồng/ khối', 'Khép kín', 'Nhân viên văn phòng', '                        ', 'Phòng mới xây, view biển, an ninh tốt', '2023-04-07 10:15:00', 'cho_duyet'),
-(3, 6, 1, 'Cho thuê phòng trọ giá rẻ', '78 Hoàng Diệu', 'Liên Chiểu', 'Đà Nẵng', 'Nguyễn Văn Lam', '0987654321', 2500000, 20, '3000', '20000', 'Chung', 'Sinh viên', 'Wifi, nóng lạnh', 'Phòng tiện nghi cơ bản, gần trường học', '2025-06-30 02:54:09', 'duyet'),
-(4, 9, 1, 'Phòng trọ cho nữ gần chợ', '12 Trần Phú', 'Cẩm Lệ', 'Đà Nẵng', 'Lê Thị An Yên', '0978123456', 3000000, 22, '3500', '25000', 'Khép kín', 'Nữ sinh viên', 'Wifi, nóng lạnh, camera an ninh', 'Khu vực yên tĩnh, an toàn cho nữ', '2025-07-02 09:45:00', 'duyet'),
-(5, 10, 2, 'Phòng trọ view thành phố', '56 Lê Duẩn', 'Hải Châu', 'Đà Nẵng', 'Nguyễn Thị Lâm', '0905123457', 5000000, 35, '4000', '30000', 'Khép kín', 'Người đi làm', 'Wifi, điều hòa, tủ lạnh, máy giặt', 'View đẹp, không gian sang trọng', '2025-04-15 16:30:00', 'duyet'),
-(6, 4, 1, 'Phòng trọ mini giá rẻ', '89 Ngô Quyền', 'Gia Lâm', 'Hà Nội', 'Trần An Nhã', '0912345679', 2000000, 18, '3000', '20000', 'Khép kín', 'Sinh viên', '                        ', 'Phòng nhỏ nhưng sạch sẽ, tiện nghi cơ bản', '2025-04-18 11:20:00', 'cho_duyet'),
-(8, 9, 1, 'Phòng trọ cho thuê dài hạn', '23 Lê Đình Dương', 'Cẩm Lệ', 'Đà Nẵng', 'Lê Thị An Yên', '0978123457', 2800000, 21, '3500', '25000', 'Khép kín', 'Sinh viên', 'Wifi, nóng lạnh', 'Phòng yên tĩnh, phù hợp học tập', '2025-04-22 15:45:00', 'duyet'),
-(10, 6, 1, 'Phòng trọ gần biển Mỹ Khê', '78 Trưng Nữ Vương', 'Sơn Trà', 'Đà Nẵng', 'Trần An Nhã', '0912345680', 3800000, 28, '4000', '30000', 'Khép kín', 'Sinh viên, người đi làm', 'Wifi, điều hòa, nóng lạnh', 'Cách biển 5 phút đi bộ, view đẹp', '2025-04-28 14:50:00', 'duyet'),
-(11, 10, 1, 'Phòng trọ giá sinh viên', '45 Nguyễn Chí Thanh', 'Liên Chiểu', 'Đà Nẵng', 'Nguyễn Thanh Lam', '0987654323', 2200000, 19, '3000', '20000', 'Khép kín', 'Sinh viên', 'Wifi', 'Phòng tiện nghi cơ bản, giá rẻ', '2025-05-02 09:15:00', 'duyet'),
-(12, 9, 1, 'Phòng trọ nữ an ninh tốt', '89 Lê Hồng Phong', 'Cẩm Lệ', 'Đà Nẵng', 'Lê Thị An Yên', '0978123458', 2900000, 22, '3500', '25000', 'Khép kín', 'Nữ sinh viên', 'Wifi, nóng lạnh, camera', 'Khu vực an ninh, chỉ cho nữ thuê', '2025-05-05 11:40:00', 'duyet'),
-(13, 4, 2, 'Phòng trọ trung tâm thành phố', '12 Phan Chu Trinh', 'Hải Châu', 'Đà Nẵng', 'Nguyễn Thị Lâm', '0905123459', 4800000, 32, '4000', '30000', 'Khép kín', 'Người đi làm', 'Wifi, điều hòa, tủ lạnh', 'Vị trí đắc địa, thuận tiện đi lại', '2025-05-08 16:20:00', 'duyet'),
-(14, 6, 1, 'Phòng trọ mới xây đẹp', '34 Lê Thanh Nghị', 'Sơn Trà', 'Đà Nẵng', 'Trần An Nhã', '0912345681', 3600000, 26, '3500', '25000', 'Khép kín', 'Sinh viên, công nhân', 'Wifi, nóng lạnh', 'Phòng mới xây, sạch sẽ, thoáng mát', '2025-05-10 10:10:00', 'duyet'),
-(15, 10, 1, 'Phòng trọ gần trường ĐH', '56 Trần Hưng Đạo', 'Thanh Khê', 'Đà Nẵng', 'Nguyễn Văn Lam', '0987654324', 2400000, 20, '3000 đồng/ số', '20000 đồng/ số', 'Khép kín', 'Sinh viên', 'Wifi', 'Gần các trường ĐH, thuận tiện đi học', '2025-05-12 14:30:00', 'duyet'),
-(48, 4, 1, 'Phòng cho thuê Quận 5', '11 Trần Hưng Đạo', 'Quận 5', 'Hồ Chí Minh', 'Hoàng Văn Huy', '0967888999', 1800000, 20, '3.7k/kw', '23k/m3', 'Khép kín', 'Sinh viên', 'Wifi, điều hòa, tủ lạnh', 'Phòng có cửa sổ thoáng.', '2025-07-01 08:15:10', 'duyet'),
-(49, 4, 2, 'Nhà nguyên căn Tây Hồ', '34 Lạc Long Quân', 'Tây Hồ', 'Hà Nội', 'Mai Thị Huyền', '0911223344', 5000000, 60, '4k/kw', '24k/m3', 'Khép kín', 'Tất cả', 'Wifi, Máy lạnh, Thang máy', 'Khu dân cư cao cấp.', '2025-07-01 08:15:34', 'duyet'),
-(50, 9, 7, 'Tìm người ở ghép', '9 Lê Duẩn', 'Quận 1', 'Hồ Chí Minh', 'Bùi Như Nga', '0933444555', 4000000, 32, '4k/kw', '25k/m3', 'Khép kín', 'Người đi làm', 'Wifi, Máy lạnh, Thang máy', 'Ngay chợ Bến Thành.', '2025-07-01 08:15:58', 'duyet'),
-(52, 4, 2, 'Nhà nguyên căn sân rộng', '23 Hoàng Văn Thụ', 'Tân Bình', 'Hồ Chí Minh', 'Lê Thu Minh', '0966778899', 5200000, 55, '4k/kw', '26k/m3', 'Khép kín', 'Gia đình', 'Wifi, Sân phơi', 'Phù hợp gia đình nhỏ.', '2025-07-01 08:16:20', 'duyet'),
-(53, 4, 5, 'Cho thuê căn hộ chung cư quận Cầu Giấy', '99 Trần Quốc Hoàn', 'Cầu Giấy', 'Hà Nội', 'Trần Thị Nụ', '0909988776', 800000, 17, '3k/kw', '20k/m3', 'Khép kín', 'Sinh viên', 'Wifi', 'Phòng Khép kín sạch sẽ, bạn thân thiện.', '2025-07-01 08:16:43', 'duyet'),
-(54, 4, 6, 'Cho thuê chung cư mini đầy đủ tiện nghi', '21 Nguyễn Thông', 'Quận 3', 'Hồ Chí Minh', 'Phạm Thị Oanh', '0922334455', 5800000, 38, '4k/kw', '25k/m3', 'Khép kín', 'Người đi làm', 'Wifi, Máy giặt, Thang máy', 'Ngay trung tâm Q3.', '2025-07-01 08:17:10', 'duyet'),
-(55, 4, 1, 'Phòng trọ gần bến xe', '67 Phạm Văn Đồng', 'Bắc Từ Liêm', 'Hà Nội', 'Vũ Thị Phương', '0944332211', 2200000, 20, '3.3k/kw', '20k/m3', 'Khép kín', 'Sinh viên', 'Wifi, Máy giặt, Thang máy', 'Giờ giấc thoải mái.', '2025-07-01 08:17:29', 'duyet');
+INSERT INTO `phong_tro` (`id`, `userID`, `idLoaiPhong`, `tieuDe`, `diaChi`, `quanHuyen`, `tinhThanh`, `chuTro`, `sdt`, `giaThue`, `dienTich`, `dien`, `nuoc`, `veSinh`, `doiTuong`, `tienIch`, `moTa`, `thoiGianDang`, `trangThai`, `loaiTin`, `ngayHienThi`, `ngayDuyet`) VALUES
+(2, 4, 2, 'Phòng trọ mới xây full nội thất', '45 Nguyễn Văn Linh', 'Sơn Trà', 'Đà Nẵng', 'Trần An Nhã', '0912345678', 4500000, 30, '4000 đồng/kW', '30000 đồng/ khối', 'Khép kín', 'Nhân viên văn phòng', '                        ', 'Phòng mới xây, view biển, an ninh tốt', '2025-04-07 10:15:00', 'duyet', 'thuong', 7, '2025-07-07 10:44:13'),
+(3, 6, 1, 'Cho thuê phòng trọ giá rẻ', '78 Hoàng Diệu', 'Liên Chiểu', 'Đà Nẵng', 'Nguyễn Văn Lam', '0987654321', 2500000, 20, '3000 đồng/kW', '20000 đồng/ khối', 'Chung', 'Sinh viên', 'Wifi, nóng lạnh', 'Phòng tiện nghi cơ bản, gần trường học', '2025-07-07 10:39:13', 'duyet', 'thuong', 7, '2025-07-07 10:49:13'),
+(4, 9, 1, 'Phòng trọ cho nữ gần chợ', '12 Trần Phú', 'Cẩm Lệ', 'Đà Nẵng', 'Lê Thị An Yên', '0978123456', 3000000, 22, '3500 đồng/kW', '25000 đồng/ khối', 'Khép kín', 'Nữ sinh viên', 'Wifi, nóng lạnh, camera an ninh', 'Khu vực yên tĩnh, an toàn cho nữ', '2025-07-07 10:39:53', 'duyet', 'thuong', 7, '2025-07-07 10:45:13'),
+(5, 10, 2, 'Phòng trọ view thành phố', '56 Lê Duẩn', 'Hải Châu', 'Đà Nẵng', 'Nguyễn Thị Lâm', '0905123457', 5000000, 35, '4000 đồng/kW', '30000 đồng/ khối', 'Khép kín', 'Người đi làm', 'Wifi, điều hòa, tủ lạnh, máy giặt', 'View đẹp, không gian sang trọng', '2025-07-07 10:35:13', 'duyet', 'thuong', 7, '2025-07-07 10:44:23'),
+(6, 4, 1, 'Phòng trọ mini giá rẻ', '89 Ngô Quyền', 'Gia Lâm', 'Hà Nội', 'Trần An Nhã', '0912345679', 2000000, 18, '3000 đồng/kW', '20000 đồng/ khối', 'Khép kín', 'Sinh viên', '                        ', 'Phòng nhỏ nhưng sạch sẽ, tiện nghi cơ bản', '2025-07-07 08:29:13', 'duyet', 'thuong', 7, '2025-07-08 08:44:13'),
+(8, 9, 1, 'Phòng trọ cho thuê dài hạn', '23 Lê Đình Dương', 'Cẩm Lệ', 'Đà Nẵng', 'Lê Thị An Yên', '0978123457', 2800000, 21, '3500 đồng/kW', '25000 đồng/ khối', 'Khép kín', 'Sinh viên', 'Wifi, nóng lạnh', 'Phòng yên tĩnh, phù hợp học tập', '2025-07-07 08:35:13', 'duyet', 'thuong', 7, '2025-07-08 08:43:13'),
+(10, 6, 1, 'Phòng trọ gần biển Mỹ Khê', '78 Trưng Nữ Vương', 'Sơn Trà', 'Đà Nẵng', 'Trần An Nhã', '0912345680', 3800000, 28, '4000 đồng/kW', '30000 đồng/ khối', 'Khép kín', 'Sinh viên, người đi làm', 'Wifi, điều hòa, nóng lạnh', 'Cách biển 5 phút đi bộ, view đẹp', '2025-07-07 07:49:13', 'duyet', 'thuong', 7, '2025-07-07 08:44:13'),
+(11, 10, 1, 'Phòng trọ giá sinh viên', '45 Nguyễn Chí Thanh', 'Liên Chiểu', 'Đà Nẵng', 'Nguyễn Thanh Lam', '0987654323', 2200000, 19, '3000 đồng/kW', '20000 đồng/ khối', 'Khép kín', 'Sinh viên', 'Wifi', 'Phòng tiện nghi cơ bản, giá rẻ', '2025-07-08 10:19:13', 'duyet', 'thuong', 7, '2025-07-08 10:44:13'),
+(12, 9, 1, 'Phòng trọ nữ an ninh tốt', '89 Lê Hồng Phong', 'Cẩm Lệ', 'Đà Nẵng', 'Lê Thị An Yên', '0978123458', 2900000, 22, '3500 đồng/kW', '25000 đồng/ khối', 'Khép kín', 'Nữ sinh viên', 'Wifi, nóng lạnh, camera', 'Khu vực an ninh, chỉ cho nữ thuê', '2025-07-08 10:27:13', 'duyet', 'thuong', 7, '2025-07-08 10:37:13'),
+(13, 4, 2, 'Phòng trọ trung tâm thành phố', '12 Phan Chu Trinh', 'Hải Châu', 'Đà Nẵng', 'Nguyễn Thị Lâm', '0905123459', 4800000, 32, '4000 đồng/kW', '30000 đồng/ khối', 'Khép kín', 'Người đi làm', 'Wifi, điều hòa, tủ lạnh', 'Vị trí đắc địa, thuận tiện đi lại', '2025-07-08 10:49:13', 'duyet', 'thuong', 7, '2025-07-08 10:54:13'),
+(14, 6, 1, 'Phòng trọ mới xây đẹp', '34 Lê Thanh Nghị', 'Sơn Trà', 'Đà Nẵng', 'Trần An Nhã', '0912345681', 3600000, 26, '3500 đồng/kW', '25000 đồng/ khối', 'Khép kín', 'Sinh viên, công nhân', 'Wifi, nóng lạnh', 'Phòng mới xây, sạch sẽ, thoáng mát', '2025-07-08 11:49:45', 'duyet', 'thuong', 7, '2025-07-08 12:12:13'),
+(15, 10, 1, 'Phòng trọ gần trường ĐH', '56 Trần Hưng Đạo', 'Thanh Khê', 'Đà Nẵng', 'Nguyễn Văn Lam', '0987654324', 2400000, 20, '3000 đồng/kW', '20000 đồng/ số', 'Khép kín', 'Sinh viên', 'Wifi', 'Gần các trường ĐH, thuận tiện đi học', '2025-07-08 11:39:45', 'duyet', 'thuong', 7, '2025-07-08 12:15:45'),
+(48, 4, 1, 'Phòng cho thuê Quận 5', '11 Trần Hưng Đạo', 'Quận 5', 'Hồ Chí Minh', 'Hoàng Văn Huy', '0967888999', 1800000, 20, '3000 đồng/kW', '23000 đồng/ khối', 'Khép kín', 'Sinh viên', 'Wifi, điều hòa, tủ lạnh', 'Phòng có cửa sổ thoáng.', '2025-07-09 08:15:10', 'duyet', 'thuong', 7, '2025-07-09 10:42:13'),
+(49, 4, 2, 'Nhà nguyên căn Tây Hồ', '34 Lạc Long Quân', 'Tây Hồ', 'Hà Nội', 'Mai Thị Huyền', '0911223344', 5000000, 60, '4000 đồng/kW', '24000 đồng/ khối', 'Khép kín', 'Tất cả', 'Wifi, Máy lạnh, Thang máy', 'Khu dân cư cao cấp.', '2025-07-09 07:49:45', 'duyet', 'thuong', 7, '2025-07-09 10:44:13'),
+(50, 9, 7, 'Tìm người ở ghép', '9 Lê Duẩn', 'Quận 1', 'Hồ Chí Minh', 'Bùi Như Nga', '0933444555', 4000000, 32, '4000 đồng/kW', '25000 đồng/ khối', 'Khép kín', 'Người đi làm', 'Wifi, Máy lạnh, Thang máy', 'Ngay chợ Bến Thành.', '2025-07-06 11:49:45', 'duyet', 'thuong', 7, '2025-07-07 13:44:13'),
+(52, 4, 2, 'Nhà nguyên căn sân rộng', '23 Hoàng Văn Thụ', 'Tân Bình', 'Hồ Chí Minh', 'Lê Thu Minh', '0966778899', 5200000, 55, '4000 đồng/kW', '26000 đồng/ khối', 'Khép kín', 'Gia đình', 'Wifi, Sân phơi', 'Phù hợp gia đình nhỏ.', '2025-07-02 16:49:45', 'duyet', 'thuong', 7, '2025-07-02 07:44:13'),
+(53, 4, 5, 'Cho thuê căn hộ chung cư quận Cầu Giấy', '99 Trần Quốc Hoàn', 'Cầu Giấy', 'Hà Nội', 'Trần Thị Nụ', '0909988776', 800000, 17, '3000 đồng/kW', '20000 đồng/ khối', 'Khép kín', 'Sinh viên', 'Wifi', 'Phòng Khép kín sạch sẽ, bạn thân thiện.', '2025-07-06 11:52:45', 'duyet', 'thuong', 7, '2025-07-06 12:49:45'),
+(54, 4, 6, 'Cho thuê chung cư mini đầy đủ tiện nghi', '21 Nguyễn Thông', 'Quận 3', 'Hồ Chí Minh', 'Phạm Thị Oanh', '0922334455', 5800000, 38, '4000 đồng/kW', '25000 đồng/ khối', 'Khép kín', 'Người đi làm', 'Wifi, Máy giặt, Thang máy', 'Ngay trung tâm Q3.', '2025-07-05 07:49:45', 'duyet', 'thuong', 7, '2025-07-05 10:44:13'),
+(55, 4, 1, 'Phòng trọ gần bến xe', '67 Phạm Văn Đồng', 'Bắc Từ Liêm', 'Hà Nội', 'Vũ Thị Phương', '0944332211', 2200000, 20, '3500 đồng/kW', '18000 đồng/ khối', 'Khép kín', 'Sinh viên', 'Wifi, Máy giặt, Thang máy', 'Giờ giấc thoải mái.', '2025-07-01 08:17:29', 'duyet', 'thuong', 7, '2025-07-07 10:44:13');
 
 -- --------------------------------------------------------
 
@@ -338,7 +342,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT cho bảng `hinh_anh_phong_tro`
 --
 ALTER TABLE `hinh_anh_phong_tro`
-  MODIFY `IDimage` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=165;
+  MODIFY `IDimage` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=167;
 
 --
 -- AUTO_INCREMENT cho bảng `loai_phong`
@@ -350,13 +354,13 @@ ALTER TABLE `loai_phong`
 -- AUTO_INCREMENT cho bảng `phong_tro`
 --
 ALTER TABLE `phong_tro`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT cho bảng `saved_posts`
 --
 ALTER TABLE `saved_posts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=693;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=695;
 
 --
 -- AUTO_INCREMENT cho bảng `users`

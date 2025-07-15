@@ -14,7 +14,7 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
     $action = $_GET['action'];
 
     if ($action == 'approve') {
-        $sql = "UPDATE phong_tro SET trangThai = 'duyet' WHERE id = $post_id";
+        $sql = "UPDATE phong_tro SET trangThai = 'duyet', ngayDuyet = NOW()  WHERE id = $post_id";
         $message = "Tin đã được duyệt thành công!";
     } elseif ($action == 'reject') {
         $sql = "UPDATE phong_tro SET trangThai = 'tu_choi' WHERE id = $post_id";

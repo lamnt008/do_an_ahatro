@@ -287,7 +287,65 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'user') {
 							</div>
 						</div>
 
-						<div class="col-xs-12" style="width: 100%; text-align: center;">
+
+
+
+
+
+
+
+
+
+
+
+
+						<div class="col-sm-6 col-xs-12">
+							<div class="col-xs-12">
+								<h4>Loại tin đăng <span>*</span></h4>
+							</div>
+							<div class="col-xs-12">
+								<select name="loaiTin" id="loaiTin" onchange="updatePrice()">
+									<option value="thuong">Tin thường (Miễn phí)</option>
+									<option value="vip">Tin VIP (Ưu tiên hiển thị)</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="col-sm-6 col-xs-12">
+							<div class="col-xs-12">
+								<h4>Số ngày hiển thị <span>*</span></h4>
+							</div>
+							<div class="col-xs-12">
+								<select name="ngayHienThi" id="ngayHienThi">
+									<option value="3">3 ngày</option>
+									<option value="5">5 ngày</option>
+									<option value="7" selected>7 ngày</option>
+									<option value="15">15 ngày</option>
+								</select>
+							</div>
+						</div>
+
+						<!-- <div class="col-xs-12" id="vipPriceInfo"
+							style="display: none; background-color: #fff8e1; padding: 10px; margin-bottom: 15px;">
+							<h4>Thông tin tin VIP</h4>
+							<p>Tin VIP sẽ được ưu tiên hiển thị trước và nổi bật hơn. Phí đăng tin VIP: 5.000 VNĐ/ngày.
+
+						</div> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+						<div class="col-xs-12" style="width: 100%; margin-top: 20px; text-align: center;">
 							<button id="upload_room_button" type="submit" class="btn btn-success" name="DangTin"
 								style="background-color: rgb(175, 0, 0); border-color: red;">Đăng tin</button>
 						</div>
@@ -338,6 +396,27 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'user') {
 			giaGoc.value = rawValue;
 			this.value = rawValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 		});
+	</script>
+
+
+	<script>
+		function updatePrice() {
+			const loaiTin = document.getElementById('loaiTin').value;
+			const ngayHienThi = document.getElementById('ngayHienThi').value;
+			const vipPriceInfo = document.getElementById('vipPriceInfo');
+			const totalPriceElement = document.getElementById('totalPrice');
+
+			if (loaiTin === 'vip') {
+				vipPriceInfo.style.display = 'block';
+				const totalPrice = 50000 * parseInt(ngayHienThi);
+				totalPriceElement.textContent = `Tổng phí: ${totalPrice.toLocaleString('vi-VN')} VNĐ (${ngayHienThi} ngày)`;
+			} else {
+				vipPriceInfo.style.display = 'none';
+			}
+		}
+
+		// Cập nhật khi thay đổi số ngày
+		document.getElementById('ngayHienThi').addEventListener('change', updatePrice);
 	</script>
 </body>
 
